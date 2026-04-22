@@ -1,0 +1,318 @@
+# ===============================
+# Python & Django Core
+# ===============================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.dll
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+.ruff_cache/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+
+# Django migrations (keep tracked, but ignore compiled versions)
+**/migrations/*.pyc
+**/migrations/*.pyo
+**/migrations/*.orig
+**/migrations/__pycache__/
+
+# Django specific
+*.log
+*.pot
+db.sqlite3
+db.sqlite3-journal
+local_settings.py
+local_settings.pyc
+/staticfiles/
+/static_collected/
+/media/
+/uploaded_media/
+/private_media/
+
+# Environment & secrets
+venv
+.env
+.env.*
+!.env.example
+*.env.local
+*.env.production
+*.env.staging
+secret_key.txt
+secrets.json
+secrets.yaml
+config/secrets.yml
+config/.secrets
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+
+# ===============================
+# IDEs & Editors
+# ===============================
+
+# Visual Studio Code
+.vscode/
+.history/
+*.code-workspace
+
+# PyCharm / IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+out/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+.sublime/
+
+# Vim
+*.swp
+*.swo
+*~
+.*.sw?
+.vim/
+Session.vim
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# VS Code specific settings
+.settings/
+.project
+.pydevproject
+.classpath
+
+# ===============================
+# Logs & Databases
+# ===============================
+
+# Logs
+*.log
+log/
+logs/
+*.log.*
+debug.log
+error.log
+
+# Database files (except .sql if you store schema)
+*.db
+*.sqlite
+*.sqlite3
+*.mdb
+*.ldb
+*.db-shm
+*.db-wal
+
+# Redis / Celery
+dump.rdb
+celerybeat-schedule
+celerybeat.pid
+*.pid
+celeryd.pid
+celeryev.pid
+celerybeat-schedule.db
+
+# ===============================
+# OS & System files
+# ===============================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.VolumeIcon.icns
+.documentVersions/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.exe
+*.dll
+
+# Linux
+*~
+.directory
+*.swp
+*.swo
+
+# ===============================
+# Docker & Containers
+# ===============================
+
+# Docker (unless you need to track Docker-specific secrets)
+.docker/
+docker-compose.override.yml
+docker-compose.*.override.yml
+!.dockerignore
+.env.docker
+*.docker_context
+
+# Kubernetes
+*.kubeconfig
+kubeconfig.*
+.secrets.yaml
+*.secret.yaml
+
+# ===============================
+# Frontend & Static assets (if Django serves them)
+# ===============================
+
+# Node / npm (if you use Django + webpack/gulp)
+node_modules/
+npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+webpack-stats.json
+.parcel-cache/
+
+# ===============================
+# Testing & Profiling
+# ===============================
+
+# pytest
+.pytest_cache/
+.tox/
+.coverage.*
+htmlcov/
+.xmlcoverage/
+.jaguar/
+
+# Profiling data
+*.prof
+*.lprof
+*.pyprofile
+
+# ===============================
+# Jupyter Notebooks
+# ===============================
+
+.ipynb_checkpoints/
+*.ipynb
+*.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# ===============================
+# Deployment & CI/CD
+# ===============================
+
+# Ansible / Terraform / Cloud
+*.retry
+*.tfstate
+*.tfstate.*
+.terraform/
+*.pem
+*.key
+
+# CI service local artifacts
+.drone/
+.jenkins/
+.gitlab-ci.local.yml
+.teamcity/
+
+# ===============================
+# Temporary / Scratch files
+# ===============================
+
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+*.rej
+*.swo
+*.swp
+*~
+*.cache
+*.pyc
+
+# ===============================
+# Sensitive & Private data
+# ===============================
+
+# SSH / GPG keys
+*.pem
+*.ppk
+*.gpg
+*.asc
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+*.keychain
+
+# Auth tokens / private data
+.credentials
+.aws/
+.gcloud/
+.azure/
+.config/google-chrome/
+.cache/google-cloud/
+.ssh/
+
+# ===============================
+# Custom project-specific ignores
+# ===============================
+
+# Add anything you know your project generates:
+# *.generated.py
+# /data/
+# /reports/
+# /screenshots/
