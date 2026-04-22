@@ -1,10 +1,14 @@
 from django.db import models
-from helper import normalize_persian
+from .helper import normalize_persian
+
 class Surah(models.Model):
     """مدل سوره‌های قرآن"""
     name = models.CharField(max_length=100, verbose_name="نام سوره")
-    persian_name = models.CharField(max_length=100, verbose_name="نام فارسی سوره")
-    latin_name = models.CharField(max_length=100, verbose_name="نام لاتین سوره")
+    second_name = models.CharField(max_length=100, blank=True, verbose_name="نام دوم")
+    persian_name = models.CharField(max_length=100, blank=True, verbose_name="نام فارسی سوره")
+    persian_second_name = models.CharField(max_length=100, blank=True, verbose_name="نام دوم فارسی")
+    latin_name = models.CharField(max_length=100, blank=True, verbose_name="نام لاتین سوره")
+
     number = models.PositiveSmallIntegerField(unique=True, verbose_name="شماره سوره")
     total_verses = models.PositiveSmallIntegerField(verbose_name="تعداد آیات")
 
@@ -18,6 +22,7 @@ class Surah(models.Model):
 
     def save(self, *args, **kwargs):
         self.persian_name = normalize_persian(self.name)
+        self.persian_second_name = normalize_persian(self.second_name) if self.second_name else False
         super().save(*args, **kwargs)
 
 class Ayah(models.Model):
@@ -25,7 +30,7 @@ class Ayah(models.Model):
     surah = models.ForeignKey(Surah, on_delete=models.CASCADE, related_name='ayahs', verbose_name="سوره")
     number= models.PositiveSmallIntegerField(verbose_name="شماره آیه در سوره")
     text = models.TextField(verbose_name="متن کامل آیه (عربی)")
-    text_fa = models.TextField(verbose_name="متن کامل آیه (عربی)")
+    text_fa = models.TextField(blank=True, verbose_name="متن کامل آیه (عربی)")
     text_prefix = models.CharField(max_length=50, blank=True, verbose_name="۲۰ کاراکتر اول آیه (برای نمایش سریع)")
 
     class Meta:
