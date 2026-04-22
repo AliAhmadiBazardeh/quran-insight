@@ -1,7 +1,5 @@
 from django.db import models
 
-from django.db import models
-
 class Surah(models.Model):
     """مدل سوره‌های قرآن"""
     name = models.CharField(max_length=100, verbose_name="نام سوره")
