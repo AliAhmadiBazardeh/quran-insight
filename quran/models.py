@@ -21,8 +21,8 @@ class Surah(models.Model):
         return f"{self.number}. {self.persian_name}"
 
     def save(self, *args, **kwargs):
-        self.persian_name = normalize_persian(self.name)
-        self.persian_second_name = normalize_persian(self.second_name) if self.second_name else False
+        self.persian_name = normalize_persian('surah',self.name)
+        self.persian_second_name = normalize_persian('surah',self.second_name) if self.second_name else False
         super().save(*args, **kwargs)
 
 class Ayah(models.Model):
@@ -46,7 +46,7 @@ class Ayah(models.Model):
         """قبل از ذخیره، text_prefix را از ۲۰ کاراکتر اول text پر کن"""
         if self.text and not self.text_prefix:
             self.text_prefix = self.text[:20]
-        self.text_fa = normalize_persian(self.text)
+        self.text_fa = normalize_persian('surah',self.text)
         super().save(*args, **kwargs)
 
 
@@ -84,9 +84,15 @@ class Tafsir(models.Model):
 
 
 class TafsirSource(models.Model):
+    verbose_name = "منبع تفسیر"
+    verbose_name_plural = "منابع تفسیر"
+
     title = models.CharField(max_length=100, verbose_name="عنوان")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ بروزرسانی")
 
+    class Meta:
+        verbose_name = "منبع تفسیر"
+        verbose_name_plural = "منابع تفسیر"
     def __str__(self):
         return f"{self.title}"

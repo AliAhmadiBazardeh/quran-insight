@@ -1,6 +1,6 @@
 import re
 
-def normalize_persian(text: str) -> str:
+def normalize_persian(text_type: str, text: str) -> str:
     """Remove diacritics & normalize Persian/Arabic letters."""
     if not text:
         return text
@@ -24,6 +24,10 @@ def normalize_persian(text: str) -> str:
     }
     for old, new in replacements.items():
         text = text.replace(old, new)
+
+    # 4. Remove leading "ال" if present
+    if text.startswith("ال") and text_type == 'surah':
+        text = text[2:]   # remove first two characters
 
     # Optional: normalize multiple spaces
     text = re.sub(r'\s+', ' ', text).strip()
