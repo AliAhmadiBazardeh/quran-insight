@@ -44,8 +44,8 @@ class Ayah(models.Model):
 
     def save(self, *args, **kwargs):
         """قبل از ذخیره، text_prefix را از ۲۰ کاراکتر اول text پر کن"""
-        if self.text and not self.text_prefix:
-            self.text_prefix = self.text[:20]
+        if self.text:
+            self.text_prefix = self.text[:50]
         self.text_fa = normalize_persian('surah',self.text)
         super().save(*args, **kwargs)
 
