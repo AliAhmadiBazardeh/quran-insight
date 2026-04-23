@@ -30,7 +30,7 @@ class Ayah(models.Model):
     surah = models.ForeignKey(Surah, on_delete=models.CASCADE, related_name='ayahs', verbose_name="سوره")
     number= models.PositiveSmallIntegerField(verbose_name="شماره آیه در سوره")
     text = models.TextField(verbose_name="متن کامل آیه (عربی)")
-    text_fa = models.TextField(blank=True, verbose_name="متن کامل آیه (عربی)")
+    text_fa = models.TextField(blank=True, verbose_name="متن کامل آیه (فارسی)")
     text_prefix = models.CharField(max_length=50, blank=True, verbose_name="۲۰ کاراکتر اول آیه (برای نمایش سریع)")
 
     class Meta:
