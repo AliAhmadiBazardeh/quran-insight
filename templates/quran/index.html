@@ -1,293 +1,34 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
 جستجوی تفسیر قرآن
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-100 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
+<div class="min-h-screen from-emerald-50 to-teal-100 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
     <div class="max-w-3xl mx-auto">
-        <!-- هدر -->
-        <div class="text-center mb-10">
-            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">
-        <span class="bg-clip-text text-transparent bg-gradient-to-r from-emerald-700 to-teal-600">
-          سامانه جامع تفسیر قرآن زهرا
-        </span>
-            </h1>
-            <p class="mt-2 text-lg text-gray-600">
-                آیه مورد نظر خود را جستجو کنید
-            </p>
-        </div>
 
-        <!-- کارت جستجو -->
+        {% include "quran/_header.html" %}
+
         <div class="bg-white rounded-2xl shadow-xl">
             <div class="p-6 md:p-8">
-                <!-- باکس ورودی (جستجو) -->
-                <div class="relative">
-                    <input type="text"
-                           id="searchInput"
-                           placeholder="مثلاً: بقره ۲۵۵، یا جزء ۳۰، یا ابتدای آیه..."
-                           class="w-full px-5 py-4 text-right text-gray-700 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition duration-200 text-lg">
 
-                    <!-- آیکون جستجو (اختیاری) -->
-                    <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                    </div>
-                </div>
+                {% include "quran/_search_box.html" %}
+                {% include "quran/_search_results.html" %}
+                {% include "quran/_tafsir_loading.html" %}
+                {% include "quran/_tafsir_section.html" %}
 
-                <!-- اسپینر لودینگ (مخفی در ابتدا) -->
-                <div id="loadingSpinner" class="absolute left-14 top-1/2 transform -translate-y-1/2 hidden">
-                    <svg class="animate-spin h-5 w-5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none"
-                         viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                </div>
-
-
-                <!-- لیست کشویی نتایج جستجو -->
-                <div id="searchResults" class="relative mt-1 hidden">
-                    <div class="absolute z-10 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-80 overflow-y-auto">
-                        <ul id="resultsList" class="py-2 divide-y divide-gray-100">
-                            <!-- آیتم‌های نتایج به صورت داینامیک اضافه می‌شوند -->
-                        </ul>
-                        <div id="noResultsMsg" class="px-4 py-3 text-center text-gray-500 hidden">
-                            آیه‌ای یافت نشد
-                        </div>
-                    </div>
-                </div>
-
-                        <!-- اسپینر اختصاصی برای بارگذاری تفسیر -->
-        <div id="tafsirLoadingSpinner" class="mt-8 text-center hidden">
-          <svg class="animate-spin h-8 w-8 text-emerald-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          <p class="text-gray-500 mt-2">در حال بارگذاری تفسیر...</p>
-        </div>
-
-                <!-- بخش نمایش تفسیر -->
-                <div id="tafsirSection" class="mt-8 pt-6 border-t border-gray-100 hidden">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">📖 تفسیر</h2>
-                    <div id="tafsirContent" class="prose max-w-none text-gray-700">
-                        <!-- متن تفسیر اینجا نمایش داده می‌شود -->
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- فوتر کوچک -->
-        <div class="text-center mt-8 text-sm text-gray-500">
-            با تایپ هر حرف، آیات مرتبط نمایش داده می‌شوند.
-        </div>
+        {% include "quran/_footer.html" %}
+
     </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<!-- جاوااسکریپت مربوط به جستجوی زنده و نمایش تفاسیر بعداً اضافه می‌شود (T-08 تا T-11) -->
-<script>
-    // فعلاً placeholder برای تسک‌های آینده
-    console.log("T-07: صفحه اصلی با باکس جستجو آماده است.");
-
-     // عناصر DOM
-    const searchInput = document.getElementById('searchInput');
-    const searchResultsDiv = document.getElementById('searchResults');
-    const resultsList = document.getElementById('resultsList');
-    const noResultsMsg = document.getElementById('noResultsMsg');
-    const loadingSpinner = document.getElementById('loadingSpinner');
-
-    // تابع debounce
-    function debounce(func, delay) {
-      let timeoutId;
-      return function(...args) {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func.apply(this, args), delay);
-      };
-    }
-
-    // تابع فراخوانی API جستجو
-    async function performSearch(query) {
-      if (!query.trim()) {
-        // اگر جستجو خالی بود، dropdown را مخفی کن
-        searchResultsDiv.classList.add('hidden');
-        return;
-      }
-
-      // نمایش اسپینر
-      loadingSpinner.classList.remove('hidden');
-
-      try {
-        const response = await fetch(`/api/search/?q=${encodeURIComponent(query)}`);
-        if (!response.ok) throw new Error('خطا در دریافت نتایج');
-        const data = await response.json();
-
-        // نمایش نتایج در dropdown
-        renderResults(data.results);
-      } catch (error) {
-        console.error('Error:', error);
-        // نمایش پیام خطا به کاربر
-        resultsList.innerHTML = '';
-        noResultsMsg.classList.remove('hidden');
-        noResultsMsg.innerText = 'خطا در ارتباط با سرور';
-        searchResultsDiv.classList.remove('hidden');
-      } finally {
-        loadingSpinner.classList.add('hidden');
-      }
-    }
-
-    // تابع رندر نتایج در لیست
-    function renderResults(results) {
-      // پاک کردن لیست قبلی
-      resultsList.innerHTML = '';
-
-      if (!results || results.length === 0) {
-        noResultsMsg.classList.remove('hidden');
-        resultsList.classList.add('hidden');
-      } else {
-        noResultsMsg.classList.add('hidden');
-        resultsList.classList.remove('hidden');
-
-        results.forEach(item => {
-          const li = document.createElement('li');
-          li.className = 'px-4 py-3 hover:bg-emerald-50 cursor-pointer transition duration-150';
-          li.innerHTML = `
-            <div class="flex justify-between items-center">
-              <span class="font-medium text-emerald-800">${item.surah_name} - آیه ${item.ayah_number}</span>
-              <span class="text-xs text-gray-500">${item.surah_number}:${item.ayah_number}</span>
-            </div>
-            <div class="text-sm text-gray-600 mt-1">${item.text_prefix || ''}...</div>
-          `;
-
-             // رویداد کلیک برای انتخاب آیه (T-10)
-                li.addEventListener('click', () => {
-                  selectAyah(item);
-            });
-
-        resultsList.appendChild(li);
-      });
-    }
-    searchResultsDiv.classList.remove('hidden');
-    }
-
-    // تابع انتخاب آیه
-  function selectAyah(ayah) {
-    // 1. پر کردن مقدار باکس ورودی
-    searchInput.value = `${ayah.surah_name} - آیه ${ayah.ayah_number}`;
-
-    // 2. بستن لیست کشویی
-    searchResultsDiv.classList.add('hidden');
-
-    // 3. بارگذاری تفسیر
-    loadTafsir(ayah.id);
-  }
-
-  // تابع بارگذاری تفسیر از API
-  async function loadTafsir(ayahId) {
-    // مخفی کردن بخش تفسیر قبلی و نمایش اسپینر
-    tafsirSection.classList.add('hidden');
-    tafsirLoadingSpinner.classList.remove('hidden');
-
-    try {
-      const response = await fetch(`/api/tafsir/?ayah_id=${ayahId}`);
-      if (!response.ok) throw new Error('خطا در دریافت تفسیر');
-      const data = await response.json();
-
-      // نمایش تفاسیر
-      renderTafsir(data);
-      currentAyahId = ayahId;
-
-    } catch (error) {
-      console.error('Error loading tafsir:', error);
-      tafsirContent.innerHTML = `
-        <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
-          خطا در بارگذاری تفسیر. لطفاً مجدداً تلاش کنید.
-        </div>
-      `;
-      tafsirSection.classList.remove('hidden');
-    } finally {
-      tafsirLoadingSpinner.classList.add('hidden');
-    }
-  }
-
-  // تابع نمایش تفاسیر
-  function renderTafsir(data) {
-    const tafsirs = data.tafsirs;
-    const ayah = data.ayah;
-
-    if (!tafsirs || tafsirs.length === 0) {
-      tafsirContent.innerHTML = `
-        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-yellow-700">
-          ⚠️ تفسیری برای این آیه یافت نشد.
-        </div>
-      `;
-      tafsirSection.classList.remove('hidden');
-      return;
-    }
-
-    // ساخت HTML برای تفاسیر
-    let html = `
-      <div class="space-y-6">
-        <div class="bg-emerald-50 rounded-lg p-4 border-r-4 border-emerald-500">
-          <p class="text-gray-700 font-medium">
-            سوره <span class="text-emerald-700">${escapeHtml(ayah.surah_name)}</span> -
-            آیه <span class="text-emerald-700">${ayah.ayah_number}</span>
-          </p>
-          <p class="text-gray-600 mt-2 text-base">${escapeHtml(ayah.text_prefix || '')}...</p>
-        </div>
-    `;
-
-    tafsirs.forEach((tafsir, index) => {
-      html += `
-        <div class="border-b border-gray-100 pb-4 last:border-b-0">
-          <h3 class="font-bold text-gray-800 text-lg mb-2">
-            📚 ${escapeHtml(tafsir.source)}
-            ${tafsir.order_priority === 1 ? '<span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded mr-2">اصلی</span>' : ''}
-          </h3>
-          <div class="text-gray-700 leading-relaxed whitespace-pre-wrap">
-            ${escapeHtml(tafsir.text)}
-          </div>
-        </div>
-      `;
-    });
-
-    html += `</div>`;
-    tafsirContent.innerHTML = html;
-    tafsirSection.classList.remove('hidden');
-  }
-
-  // تابع کمکی برای جلوگیری از XSS
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
-
-    // تابع واکنش به تایپ با debounce
-    const debouncedSearch = debounce((event) => {
-      const query = event.target.value;
-      performSearch(query);
-    }, 300);
-
-    // اضافه کردن event listener
-    searchInput.addEventListener('input', debouncedSearch);
-
-    // اگر کاربر روی خارج از dropdown کلیک کرد، dropdown را ببند (اختیاری)
-    document.addEventListener('click', function(event) {
-      if (!searchResultsDiv.contains(event.target) && event.target !== searchInput) {
-        searchResultsDiv.classList.add('hidden');
-      }
-    });
-
-</script>
+<script src="{% static 'js/search.js' %}" defer></script>
+<script src="{% static 'js/tafsir.js' %}" defer></script>
 {% endblock %}
