@@ -45,10 +45,10 @@ function renderTafsir(data) {
 
     let html = `
         <div class="space-y-6">
-            <div class="bg-emerald-50 rounded-lg p-4 border-r-4 border-emerald-500">
+            <div class="bg-slate-50 rounded-lg p-4 border-r-4 border-slate-500">
                 <p class="text-gray-700 font-medium">
-                    سوره <span class="text-emerald-700">${escapeHtml(ayah.surah_name)}</span> -
-                    آیه <span class="text-emerald-700">${ayah.ayah_number}</span>
+                    سوره ${escapeHtml(ayah.surah_name)} -
+                    آیه ${ayah.ayah_number}
                 </p>
                 <p class="text-gray-600 mt-2 text-base">${escapeHtml(ayah.text_prefix || '')}...</p>
             </div>
@@ -59,7 +59,7 @@ function renderTafsir(data) {
             <div class="border-b border-gray-100 pb-4 last:border-b-0">
                 <h3 class="font-bold text-gray-800 text-lg mb-2">
                     📚 ${escapeHtml(tafsir.source)}
-                    ${tafsir.order_priority === 1 ? '<span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded mr-2">اصلی</span>' : ''}
+                    ${tafsir.order_priority === 1 ? '<span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded mr-2">اصلی</span>' : ''}
                 </h3>
                 <div class="text-gray-700 leading-relaxed whitespace-pre-wrap">
                     ${escapeHtml(tafsir.text)}
