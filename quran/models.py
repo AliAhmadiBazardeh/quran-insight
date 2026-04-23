@@ -58,7 +58,11 @@ class Tafsir(models.Model):
         related_name='tafsirs',
         verbose_name="آیه مرتبط"
     )
-    source = models.CharField(max_length=200, verbose_name="نام مفسر / منبع تفسیر")
+    tafsir_source = models.ForeignKey(
+        'TafsirSource',
+        on_delete=models.CASCADE,
+        related_name='tafsirs',
+        verbose_name="منبع تفسیر")
     text = models.TextField(verbose_name="متن تفسیر")
     order_priority = models.PositiveSmallIntegerField(
         default=1,
@@ -68,7 +72,7 @@ class Tafsir(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ بروزرسانی")
 
     class Meta:
-        ordering = ['order_priority', 'source']
+        ordering = ['order_priority']
         verbose_name = "تفسیر"
         verbose_name_plural = "تفاسیر"
         indexes = [
@@ -76,5 +80,13 @@ class Tafsir(models.Model):
         ]
 
     def __str__(self):
-        return f"تفسیر {self.source} برای {self.ayah}"
+        return f"تفسیر {self.tafsir_source.title} برای {self.ayah}"
 
+
+class TafsirSource(models.Model):
+    title = models.CharField(max_length=100, verbose_name="عنوان")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ بروزرسانی")
+
+    def __str__(self):
+        return f"{self.title}"
