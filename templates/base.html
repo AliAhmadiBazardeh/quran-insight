@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}تفسیر قرآن{% endblock %}</title>
+  <!-- Tailwind CSS CDN (برای توسعه سریع) -->
+  <script src="{% static 'js/tailwindcss4.js' %}"></script>
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+</head>
+<body class="bg-gray-100">
+  {% block content %}
+  {% endblock %}
+  {% block extra_js %}
+  {% endblock %}
+</body>
+</html>

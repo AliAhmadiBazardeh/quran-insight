@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}
+جستجوی تفسیر قرآن
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-100 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
+  <div class="max-w-3xl mx-auto">
+    <!-- هدر -->
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-emerald-700 to-teal-600">
+          تفسیر قرآن
+        </span>
+      </h1>
+      <p class="mt-2 text-lg text-gray-600">
+        آیه مورد نظر خود را جستجو کنید
+      </p>
+    </div>
+
+    <!-- کارت جستجو -->
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div class="p-6 md:p-8">
+        <!-- باکس ورودی (جستجو) -->
+        <div class="relative">
+          <input type="text"
+                 id="searchInput"
+                 placeholder="مثلاً: بقره ۲۵۵، یا جزء ۳۰، یا ابتدای آیه..."
+                 class="w-full px-5 py-4 text-right text-gray-700 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition duration-200 text-lg">
+
+          <!-- آیکون جستجو (اختیاری) -->
+          <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- فضای نمایش نتایج جستجو (drop-down و پیام‌ها) – برای تسک‌های بعدی -->
+        <div id="searchResults" class="mt-3 hidden">
+          <!-- لیست کشویی آیات اینجا نمایش داده خواهد شد (T-09) -->
+        </div>
+
+        <!-- بخش نمایش تفسیر (برای تسک‌های بعدی) -->
+        <div id="tafsirSection" class="mt-8 pt-6 border-t border-gray-100 hidden">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">📖 تفسیر</h2>
+          <div id="tafsirContent" class="prose max-w-none text-gray-700">
+            <!-- متن تفسیر اینجا نمایش داده می‌شود -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- فوتر کوچک -->
+    <div class="text-center mt-8 text-sm text-gray-500">
+      با تایپ هر حرف، آیات مرتبط نمایش داده می‌شوند.
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- جاوااسکریپت مربوط به جستجوی زنده و نمایش تفاسیر بعداً اضافه می‌شود (T-08 تا T-11) -->
+<script>
+  // فعلاً placeholder برای تسک‌های آینده
+  console.log("T-07: صفحه اصلی با باکس جستجو آماده است.");
+</script>
+{% endblock %}
