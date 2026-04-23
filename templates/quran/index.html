@@ -63,6 +63,15 @@
                     </div>
                 </div>
 
+                        <!-- اسپینر اختصاصی برای بارگذاری تفسیر -->
+        <div id="tafsirLoadingSpinner" class="mt-8 text-center hidden">
+          <svg class="animate-spin h-8 w-8 text-emerald-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <p class="text-gray-500 mt-2">در حال بارگذاری تفسیر...</p>
+        </div>
+
                 <!-- بخش نمایش تفسیر -->
                 <div id="tafsirSection" class="mt-8 pt-6 border-t border-gray-100 hidden">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">📖 تفسیر</h2>
@@ -155,16 +164,114 @@
             </div>
             <div class="text-sm text-gray-600 mt-1">${item.text_prefix || ''}...</div>
           `;
-          // هنگام کلیک روی هر آیتم، آیه انتخاب می‌شود (فعلاً فقط لاگ می‌کنیم – برای T-10)
-          li.addEventListener('click', () => {
-            console.log('آیه انتخاب شد:', item);
-            // در T-10 اینجا مقدار input را پر می‌کنیم و تفسیر را بار می‌کنیم
-          });
-          resultsList.appendChild(li);
-        });
-      }
-      searchResultsDiv.classList.remove('hidden');
+
+             // رویداد کلیک برای انتخاب آیه (T-10)
+                li.addEventListener('click', () => {
+                  selectAyah(item);
+            });
+
+        resultsList.appendChild(li);
+      });
     }
+    searchResultsDiv.classList.remove('hidden');
+    }
+
+    // تابع انتخاب آیه
+  function selectAyah(ayah) {
+    // 1. پر کردن مقدار باکس ورودی
+    searchInput.value = `${ayah.surah_name} - آیه ${ayah.ayah_number}`;
+
+    // 2. بستن لیست کشویی
+    searchResultsDiv.classList.add('hidden');
+
+    // 3. بارگذاری تفسیر
+    loadTafsir(ayah.id);
+  }
+
+  // تابع بارگذاری تفسیر از API
+  async function loadTafsir(ayahId) {
+    // مخفی کردن بخش تفسیر قبلی و نمایش اسپینر
+    tafsirSection.classList.add('hidden');
+    tafsirLoadingSpinner.classList.remove('hidden');
+
+    try {
+      const response = await fetch(`/api/tafsir/?ayah_id=${ayahId}`);
+      if (!response.ok) throw new Error('خطا در دریافت تفسیر');
+      const data = await response.json();
+
+      // نمایش تفاسیر
+      renderTafsir(data);
+      currentAyahId = ayahId;
+
+    } catch (error) {
+      console.error('Error loading tafsir:', error);
+      tafsirContent.innerHTML = `
+        <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+          خطا در بارگذاری تفسیر. لطفاً مجدداً تلاش کنید.
+        </div>
+      `;
+      tafsirSection.classList.remove('hidden');
+    } finally {
+      tafsirLoadingSpinner.classList.add('hidden');
+    }
+  }
+
+  // تابع نمایش تفاسیر
+  function renderTafsir(data) {
+    const tafsirs = data.tafsirs;
+    const ayah = data.ayah;
+
+    if (!tafsirs || tafsirs.length === 0) {
+      tafsirContent.innerHTML = `
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-yellow-700">
+          ⚠️ تفسیری برای این آیه یافت نشد.
+        </div>
+      `;
+      tafsirSection.classList.remove('hidden');
+      return;
+    }
+
+    // ساخت HTML برای تفاسیر
+    let html = `
+      <div class="space-y-6">
+        <div class="bg-emerald-50 rounded-lg p-4 border-r-4 border-emerald-500">
+          <p class="text-gray-700 font-medium">
+            سوره <span class="text-emerald-700">${escapeHtml(ayah.surah_name)}</span> -
+            آیه <span class="text-emerald-700">${ayah.ayah_number}</span>
+          </p>
+          <p class="text-gray-600 mt-2 text-base">${escapeHtml(ayah.text_prefix || '')}...</p>
+        </div>
+    `;
+
+    tafsirs.forEach((tafsir, index) => {
+      html += `
+        <div class="border-b border-gray-100 pb-4 last:border-b-0">
+          <h3 class="font-bold text-gray-800 text-lg mb-2">
+            📚 ${escapeHtml(tafsir.source)}
+            ${tafsir.order_priority === 1 ? '<span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded mr-2">اصلی</span>' : ''}
+          </h3>
+          <div class="text-gray-700 leading-relaxed whitespace-pre-wrap">
+            ${escapeHtml(tafsir.text)}
+          </div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+    tafsirContent.innerHTML = html;
+    tafsirSection.classList.remove('hidden');
+  }
+
+  // تابع کمکی برای جلوگیری از XSS
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
 
     // تابع واکنش به تایپ با debounce
     const debouncedSearch = debounce((event) => {
