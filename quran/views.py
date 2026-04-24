@@ -64,5 +64,6 @@ def get_tafsir(request):
         'surah_name': ayah.surah.name_fa,
         'surah_number': ayah.surah.number,
         'ayah_number': ayah.number,
+        'text': ayah.text,
         'text_prefix': ayah.text_prefix,
     }}, json_dumps_params={'ensure_ascii': False})

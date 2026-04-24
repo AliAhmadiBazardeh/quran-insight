@@ -1,5 +1,5 @@
 function selectAyah(ayah) {
-    if (searchInput) searchInput.value = `${ayah.surah_name} - آیه ${ayah.ayah_number}`;
+//    if (searchInput) searchInput.value = `${ayah.surah_name} - آیه ${ayah.ayah_number}`;
     if (searchResultsDiv) searchResultsDiv.classList.add('hidden');
     loadTafsir(ayah.id);
 }
@@ -33,16 +33,6 @@ function renderTafsir(data) {
     const tafsirs = data.tafsirs;
     const ayah = data.ayah;
 
-    if (!tafsirs || tafsirs.length === 0) {
-        tafsirContent.innerHTML = `
-            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-yellow-700">
-                ⚠️ تفسیری برای این آیه یافت نشد.
-            </div>
-        `;
-        tafsirSection.classList.remove('hidden');
-        return;
-    }
-
     let html = `
         <div class="space-y-6">
             <div class="bg-slate-50 rounded-lg p-4 border-r-4 border-slate-500">
@@ -50,9 +40,20 @@ function renderTafsir(data) {
                     سوره ${escapeHtml(ayah.surah_name)} -
                     آیه ${ayah.ayah_number}
                 </p>
-                <p class="text-gray-600 mt-2 text-base">${escapeHtml(ayah.text_prefix || '')}...</p>
+                <p class="text-gray-600 mt-2 text-base">${escapeHtml(ayah.text || '')}</p>
             </div>
     `;
+
+    if (!tafsirs || tafsirs.length === 0) {
+        html += `
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-yellow-700">
+                ⚠️ تفسیری برای این آیه یافت نشد.
+            </div>
+        `;
+        tafsirContent.innerHTML = html;
+        tafsirSection.classList.remove('hidden');
+        return;
+    }
 
     tafsirs.forEach(tafsir => {
         html += `
