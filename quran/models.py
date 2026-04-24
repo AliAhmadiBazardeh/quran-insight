@@ -7,7 +7,7 @@ class Surah(models.Model):
     second_name = models.CharField(max_length=100, blank=True, verbose_name="نام دوم")
     name_fa = models.CharField(max_length=100, blank=True, verbose_name="نام فارسی سوره")
     second_name_fa = models.CharField(max_length=100, blank=True, verbose_name="نام دوم فارسی")
-    latin_name = models.CharField(max_length=100, blank=True, verbose_name="نام لاتین سوره")
+    name_en = models.CharField(max_length=100, blank=True, verbose_name="نام لاتین سوره")
 
     number = models.PositiveSmallIntegerField(unique=True, verbose_name="شماره سوره")
     total_verses = models.PositiveSmallIntegerField(verbose_name="تعداد آیات")
