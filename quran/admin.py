@@ -17,8 +17,8 @@ class SurahAdmin(admin.ModelAdmin):
 
 @admin.register(Ayah)
 class AyahAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'surah', 'number']
-    search_fields = ['surah__name_fa', 'number', 'text_prefix']
+    list_display = ['__str__', 'surah', 'number','text_prefix']
+    search_fields = ['surah__name_fa', 'number', 'text_fa']
     list_filter = ['surah']
     autocomplete_fields = ['surah']
     inlines = [TafsirInline]
@@ -26,7 +26,6 @@ class AyahAdmin(admin.ModelAdmin):
 @admin.register(TafsirSource)
 class TafsirSourceAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    # بقیه تنظیمات...
 
 @admin.register(Tafsir)
 class TafsirAdmin(admin.ModelAdmin):
