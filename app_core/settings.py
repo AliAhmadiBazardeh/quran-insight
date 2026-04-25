@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -67,6 +68,19 @@ TEMPLATES = [
         },
     },
 ]
+
+JAZZMIN_UI_TWEAKS = {
+    # Choose a modern theme that supports both light and dark modes
+    "theme": "quartz",  # Other great options: "darkly", "morph", "vapor"
+
+    # Control the color scheme
+    "default_theme_mode": "dark",  # Options: "auto", "light", "dark"
+
+    # Keep other existing UI tweaks you might have
+    "sidebar_fixed": True,
+    "navbar_fixed": True,
+}
+
 
 WSGI_APPLICATION = 'app_core.wsgi.application'
 
