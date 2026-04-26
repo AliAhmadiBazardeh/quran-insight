@@ -22,8 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ne@4sxkhi_%a+-abx^qgf_ttund!la4xxi7))htvta*y=!e3ye'
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -31,7 +33,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
+    # 'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -69,18 +71,22 @@ TEMPLATES = [
     },
 ]
 
-JAZZMIN_UI_TWEAKS = {
-    # Choose a modern theme that supports both light and dark modes
-    "theme": "quartz",  # Other great options: "darkly", "morph", "vapor"
-
-    # Control the color scheme
-    "default_theme_mode": "dark",  # Options: "auto", "light", "dark"
-
-    # Keep other existing UI tweaks you might have
-    "sidebar_fixed": True,
-    "navbar_fixed": True,
-}
-
+# JAZZMIN_UI_TWEAKS = {
+#     # Choose a modern theme that supports both light and dark modes
+#     "theme": "quartz",  # Other great options: "darkly", "morph", "vapor"
+#
+#     # Control the color scheme
+#     "default_theme_mode": "dark",  # Options: "auto", "light", "dark"
+#
+#     # Keep other existing UI tweaks you might have
+#     "sidebar_fixed": True,
+#     "navbar_fixed": True,
+#     "use_google_fonts_cdn": False,
+#
+# }
+# JAZZMIN_SETTINGS = {
+#     # "custom_js": "quran/js/admin-custom.js",
+# }
 
 WSGI_APPLICATION = 'app_core.wsgi.application'
 
@@ -137,3 +143,4 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
