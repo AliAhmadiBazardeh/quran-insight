@@ -60,10 +60,14 @@ function renderTafsir(data) {
             <div class="border-b border-gray-100 pb-4 last:border-b-0">
                 <h3 class="font-bold text-gray-800 text-lg mb-2">
                     📚 ${escapeHtml(tafsir.source)}
-                    ${tafsir.order_priority === 1 ? '<span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded mr-2">اصلی</span>' : ''}
                 </h3>
-                <div class="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                    ${escapeHtml(tafsir.text)}
+                <div class="tafsir-text-container">
+                    <div class="text-gray-700 leading-relaxed whitespace-pre-line line-clamp-3">
+                            ${escapeHtml(tafsir.text)}
+                    </div>
+                    <button class="text-blue-600 hover:text-blue-800 text-sm mt-2 toggle-tafsir">
+                        مشاهده بیشتر ←
+                    </button>
                 </div>
             </div>
         `;
@@ -73,3 +77,18 @@ function renderTafsir(data) {
     tafsirContent.innerHTML = html;
     tafsirSection.classList.remove('hidden');
 }
+
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('toggle-tafsir')) {
+        const textDiv = e.target.previousElementSibling;
+        const isExpanded = textDiv.classList.contains('expanded');
+        
+        if (isExpanded) {
+            textDiv.classList.remove('expanded');
+            e.target.textContent = 'مشاهده بیشتر ←';
+        } else {
+            textDiv.classList.add('expanded');
+            e.target.textContent = 'بستن ↑';
+        }
+    }
+});
