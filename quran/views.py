@@ -52,11 +52,19 @@ def get_tafsir(request):
 
     data = []
     for t in tafsirs:
+        other_ayah_list = t.ayah_list.exclude(id=ayah_id).values('number')
+
         data.append({
             'id': t.id,
             'source': t.tafsir_source.title,
             'text': t.text,
             'order_priority': t.order_priority,
+            'same_tafsir_numbers': [
+                {
+                    'ayah_number': ayah['number'],
+                }
+                for ayah in other_ayah_list
+            ]
         })
 
     return JsonResponse(

@@ -45,11 +45,11 @@ function renderTafsir(data) {
             </div>
     `;
 
-    if (count > 0)
-    {
-        html += `
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">📖 ${count} تفسیر یافت شد</h2>`;
-    }
+    //    if (count > 0)
+    //    {
+    //        html += `
+    //        <h2 class="text-xl font-semibold text-gray-800 mb-4">📖 ${count} تفسیر یافت شد</h2>`;
+    //    }
 
     if (!tafsirs || tafsirs.length === 0) {
         html += `
@@ -63,10 +63,26 @@ function renderTafsir(data) {
     }
 
     tafsirs.forEach(tafsir => {
+
+        const otherAyahsBadges = tafsir.same_tafsir_numbers && tafsir.same_tafsir_numbers.length > 0
+            ? tafsir.same_tafsir_numbers.map(ayah => ayah.ayah_number).join('،')
+            : '';
+
+        console.log('otherAyahsBadges')
+        console.log(otherAyahsBadges)
         html += `
             <div class="border-b border-gray-100 pb-4 last:border-b-0">
                 <h3 class="font-bold text-gray-800 text-lg mb-2">
                     📚 ${escapeHtml(tafsir.source)}
+                ${otherAyahsBadges ? `<span class="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded mr-1">
+                این تفسیر برای آیه
+                ${otherAyahsBadges}
+                سوره
+                ${ayah.surah_name}
+                نیز صدق میکند
+                </span>`
+                 : ''}
+
                 </h3>
                 <div class="tafsir-text-container">
                     <div class="text-gray-700 leading-relaxed whitespace-pre-line line-clamp-3">
