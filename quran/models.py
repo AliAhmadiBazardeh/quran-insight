@@ -8,7 +8,6 @@ class Surah(models.Model):
     name_fa = models.CharField(max_length=100, blank=True, verbose_name="نام فارسی سوره")
     second_name_fa = models.CharField(max_length=100, blank=True, verbose_name="نام دوم فارسی")
     name_en = models.CharField(max_length=100, blank=True, verbose_name="نام لاتین سوره")
-
     number = models.PositiveSmallIntegerField(unique=True, verbose_name="شماره سوره")
     total_verses = models.PositiveSmallIntegerField(verbose_name="تعداد آیات")
 
@@ -52,11 +51,10 @@ class Ayah(models.Model):
 
 class Tafsir(models.Model):
     """مدل تفسیر آیه"""
-    ayah = models.ForeignKey(
+    ayah_list = models.ManyToManyField(
         'Ayah',
-        on_delete=models.CASCADE,
-        related_name='tafsirs',
-        verbose_name="آیه مرتبط"
+        related_name='tafsir_list',
+        verbose_name="آیات مرتبط"
     )
     tafsir_source = models.ForeignKey(
         'TafsirSource',
@@ -76,12 +74,12 @@ class Tafsir(models.Model):
         verbose_name = "تفسیر"
         verbose_name_plural = "تفاسیر"
         indexes = [
-            models.Index(fields=['ayah', 'order_priority']),
+            models.Index(fields=['order_priority']),
         ]
 
     def __str__(self):
-        return f"تفسیر {self.tafsir_source} برای {self.ayah}"
-
+        ayah_list = ', '.join(str(ayah) for ayah in self.ayah_list.all())
+        return f"تفسیر {self.tafsir_source} برای {ayah_list}"
 
 class TafsirSource(models.Model):
     verbose_name = "منبع تفسیر"

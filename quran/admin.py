@@ -21,7 +21,6 @@ class AyahAdmin(admin.ModelAdmin):
     search_fields = ['surah__name_fa', 'number', 'text_fa']
     list_filter = ['surah']
     autocomplete_fields = ['surah']
-    inlines = [TafsirInline]
 
 @admin.register(TafsirSource)
 class TafsirSourceAdmin(admin.ModelAdmin):
@@ -29,6 +28,10 @@ class TafsirSourceAdmin(admin.ModelAdmin):
 
 @admin.register(Tafsir)
 class TafsirAdmin(admin.ModelAdmin):
-    list_display = ['ayah', 'tafsir_source', 'order_priority']
-    search_fields = ['ayah__surah__name_fa', 'ayah__number', 'text']
-    autocomplete_fields = ['ayah', 'tafsir_source']
+    list_display = ['get_ayah_list', 'tafsir_source', 'order_priority']
+    search_fields = ['ayah_list__surah__name_fa', 'ayah_list__number', 'text']
+    autocomplete_fields = ['ayah_list', 'tafsir_source']
+
+    def get_ayah_list(self, obj):
+        return ', '.join(str(ayah) for ayah in obj.ayah_list.all())
+    get_ayah_list.short_description = 'آیات'
