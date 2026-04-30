@@ -59,7 +59,11 @@ def get_tafsir(request):
             'order_priority': t.order_priority,
         })
 
-    return JsonResponse({'tafsirs': data, 'ayah': {
+    return JsonResponse(
+        {
+        'tafsirs': data,
+        'count': len(data) if data else 0,
+        'ayah': {
         'id': ayah.id,
         'surah_name': ayah.surah.name_fa,
         'surah_number': ayah.surah.number,

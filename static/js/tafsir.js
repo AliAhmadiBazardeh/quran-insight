@@ -32,6 +32,7 @@ function renderTafsir(data) {
     if (!tafsirContent || !tafsirSection) return;
     const tafsirs = data.tafsirs;
     const ayah = data.ayah;
+    const count = data.count;
 
     let html = `
         <div class="space-y-6">
@@ -43,6 +44,12 @@ function renderTafsir(data) {
                 <p class="text-gray-600 mt-2 text-base">${escapeHtml(ayah.text || '')}</p>
             </div>
     `;
+
+    if (count > 0)
+    {
+        html += `
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">📖 ${count} تفسیر یافت شد</h2>`;
+    }
 
     if (!tafsirs || tafsirs.length === 0) {
         html += `
