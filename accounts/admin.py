@@ -15,6 +15,7 @@ class CustomUserAdmin(UserAdmin):
         ('اطلاعات شخصی',
          {'fields': ('first_name', 'last_name', 'date_of_birth', 'phone_number', 'bio','password')}),
         ('دسترسی ها', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('سوره‌های مجاز', {'fields': ('allowed_surahs',)}),
         ('تاریخ ها', {'fields': ('last_login', 'date_joined')}),
     )
 

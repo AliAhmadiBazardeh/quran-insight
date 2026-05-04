@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import RegexValidator
+from quran.models import Surah
 
 class CustomUserManager(BaseUserManager):
     """Custom manager for CustomUser with username field"""
@@ -42,6 +42,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     date_of_birth = models.DateField(_('تاریخ تولد'), null=True, blank=True)
     phone_number = models.CharField(_('موبایل'), max_length=20, blank=True)
     bio = models.TextField(_('بیوگرافی'), max_length=500, blank=True)
+
+    allowed_surah_list = models.ManyToManyField(
+        Surah,
+        blank=True,
+        related_name='assigned_users',
+        verbose_name="سوره‌های مجاز"
+    )
 
     # Required fields for AbstractBaseUser
     is_staff = models.BooleanField(_('عضو تیم مدیریت'), default=False)
