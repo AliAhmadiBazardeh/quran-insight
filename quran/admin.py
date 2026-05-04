@@ -14,6 +14,22 @@ class TafsirInline(admin.StackedInline):  # استفاده از Stacked برای
 class SurahAdmin(admin.ModelAdmin):
     list_display = ['number', 'name_fa', 'total_verses']
     search_fields = ['name_fa', 'name', 'number']
+    
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        # کاربران غیر سوپریوزر فقط سوره‌های مجاز خود را ببینند
+        if request.user.allowed_surah_list.exists():
+            return qs.filter(id__in=request.user.allowed_surah_list.all())
+        # اگر هیچ سوره‌ای مجاز نباشد، نتیجه خالی برگردان
+        return qs.none()
+
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser
 
 
 @admin.register(Ayah)
@@ -22,6 +38,20 @@ class AyahAdmin(admin.ModelAdmin):
     search_fields = ['surah__name_fa', 'number', 'text_fa']
     list_filter = ['surah']
     autocomplete_fields = ['surah']
+
+    def get_search_results(self, request, queryset, search_term):
+        """
+        محدود کردن نتایج جستجو (Autocomplete) برای کاربران غیر سوپریوزر
+        فقط آیات سوره‌های مجاز برگردانده شوند
+        """
+        queryset, use_distinct = super().get_search_results(request, queryset, search_term)
+        if not request.user.is_superuser:
+            allowed_surah_list = request.user.allowed_surah_list.all()
+            if allowed_surah_list.exists():
+                queryset = queryset.filter(surah__in=allowed_surah_list)
+            else:
+                queryset = queryset.none()
+        return queryset, use_distinct
 
 @admin.register(TafsirSource)
 class TafsirSourceAdmin(admin.ModelAdmin):
@@ -32,6 +62,7 @@ class TafsirAdmin(admin.ModelAdmin):
     list_display = ['get_ayah_list', 'tafsir_source', 'order_priority']
     search_fields = ['ayah_list__surah__name_fa', 'ayah_list__number', 'text']
     autocomplete_fields = ['ayah_list', 'tafsir_source']
+    readonly_fields = ['created_by']
 
 
     def get_queryset(self, request):
@@ -46,7 +77,7 @@ class TafsirAdmin(admin.ModelAdmin):
         form = super().get_form(request, obj, **kwargs)
         if not request.user.is_superuser:
             # فیلد ayah_list یک ManyToManyField است
-            # می‌خواهیم فقط آیاتی نمایش داده شوند که سوره‌شان در allowed_surah_list کاربر باشد
+            # محدود کردن queryset اولیه فیلد (برای جلوگیری از نمایش همه آیات در صورت عدم استفاده از autocomplete)
             allowed_surah_list = request.user.allowed_surah_list.all()
             if allowed_surah_list.exists():
                 form.base_fields['ayah_list'].queryset = Ayah.objects.filter(
@@ -70,6 +101,11 @@ class TafsirAdmin(admin.ModelAdmin):
             return True
         return False
 
+    def save_model(self, request, obj, form, change):
+        """به‌طور خودکار created_by را هنگام ذخیره تنظیم کن"""
+        if not change:   # فقط در هنگام ایجاد
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
 
     def get_ayah_list(self, obj):
         return ', '.join(str(ayah) for ayah in obj.ayah_list.all())

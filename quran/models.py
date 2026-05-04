@@ -1,5 +1,6 @@
 from django.db import models
 from .helper import normalize_persian
+from django.conf import settings
 
 class Surah(models.Model):
     """مدل سوره‌های قرآن"""
@@ -65,6 +66,12 @@ class Tafsir(models.Model):
     order_priority = models.PositiveSmallIntegerField(
         default=1,
         verbose_name="اولویت ترتیب نمایش"
+    )
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='tafsirs',
+        verbose_name="کاربر ایجاد کننده"
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ بروزرسانی")

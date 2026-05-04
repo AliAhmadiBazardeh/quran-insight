@@ -13,9 +13,9 @@ class CustomUserAdmin(UserAdmin):
 
     fieldsets = (
         ('اطلاعات شخصی',
-         {'fields': ('first_name', 'last_name', 'date_of_birth', 'phone_number', 'bio','password')}),
+         {'fields': ('first_name', 'last_name','username', 'date_of_birth', 'phone_number', 'bio','password')}),
         ('دسترسی ها', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('سوره‌های مجاز', {'fields': ('allowed_surahs',)}),
+        ('سوره‌های مجاز', {'fields': ('allowed_surah_list',)}),
         ('تاریخ ها', {'fields': ('last_login', 'date_joined')}),
     )
 
@@ -26,8 +26,9 @@ class CustomUserAdmin(UserAdmin):
          ),
     )
 
-    search_fields = ( 'first_name', 'last_name')
+    search_fields = ( 'first_name', 'last_name','allowed_surah_list__name_fa')
     filter_horizontal = ('groups', 'user_permissions')
+    autocomplete_fields = ['allowed_surah_list']
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
