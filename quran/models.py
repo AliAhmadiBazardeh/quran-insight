@@ -1,6 +1,7 @@
 from django.db import models
 from .helper import normalize_persian
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
 class Surah(models.Model):
     """مدل سوره‌های قرآن"""
@@ -87,6 +88,7 @@ class Tafsir(models.Model):
     def __str__(self):
         ayah_list = ', '.join(str(ayah) for ayah in self.ayah_list.all())
         return f"تفسیر {self.tafsir_source} برای {ayah_list}"
+
 
 class TafsirSource(models.Model):
     verbose_name = "منبع تفسیر"

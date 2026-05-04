@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Surah, Ayah, Tafsir, TafsirSource
-
+from .form import TafsirAdminForm
 from django.contrib import admin
 from .models import Surah, Ayah, Tafsir, TafsirSource
 
@@ -59,6 +59,8 @@ class TafsirSourceAdmin(admin.ModelAdmin):
 
 @admin.register(Tafsir)
 class TafsirAdmin(admin.ModelAdmin):
+    form = TafsirAdminForm
+
     list_display = ['get_ayah_list', 'tafsir_source', 'order_priority']
     search_fields = ['ayah_list__surah__name_fa', 'ayah_list__number', 'text']
     autocomplete_fields = ['ayah_list', 'tafsir_source']
