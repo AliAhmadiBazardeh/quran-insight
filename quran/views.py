@@ -48,7 +48,9 @@ def get_tafsir(request):
     except Ayah.DoesNotExist:
         return JsonResponse({'error': 'Ayah not found'}, status=404)
 
-    tafsirs = Tafsir.objects.filter(ayah_list__id=ayah_id).order_by('order_priority')
+    tafsirs = Tafsir.objects.filter(
+        ayah_list__id=ayah_id
+    ).order_by('tafsir_source__order_priority', 'order_priority')
 
     data = []
     for t in tafsirs:

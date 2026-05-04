@@ -84,12 +84,16 @@ class Tafsir(models.Model):
 class TafsirSource(models.Model):
     verbose_name = "منبع تفسیر"
     verbose_name_plural = "منابع تفسیر"
-
+    order_priority = models.PositiveSmallIntegerField(
+        default=1,
+        verbose_name="اولویت ترتیب نمایش"
+    )
     title = models.CharField(max_length=100, verbose_name="عنوان")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ بروزرسانی")
 
     class Meta:
+        ordering = ['order_priority']
         verbose_name = "منبع تفسیر"
         verbose_name_plural = "منابع تفسیر"
     def __str__(self):
