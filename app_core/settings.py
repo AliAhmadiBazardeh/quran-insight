@@ -147,3 +147,8 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+METHOD = 'sendMessage'
+TOKEN = '1016915216:AwAaiAabCT2IcJ_N-19_H69z-2ibeoZuKl0'
+URL = f'https://tapi.bale.ai/bot{TOKEN}/{METHOD}'
+BALE_CHAT_ID = '5753490005'

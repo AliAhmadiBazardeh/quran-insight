@@ -1,8 +1,7 @@
-from django.contrib import admin
-from .models import Surah, Ayah, Tafsir, TafsirSource
 from .form import TafsirAdminForm
 from django.contrib import admin
 from .models import Surah, Ayah, Tafsir, TafsirSource
+from . import helper
 
 class TafsirInline(admin.StackedInline):  # استفاده از Stacked برای متن طولانی تفسیر
     model = Tafsir
@@ -108,6 +107,10 @@ class TafsirAdmin(admin.ModelAdmin):
         if not change:   # فقط در هنگام ایجاد
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
+
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        helper.send_message_to_channel(request, form.instance, change)
 
     def get_ayah_list(self, obj):
         return ', '.join(str(ayah) for ayah in obj.ayah_list.all())

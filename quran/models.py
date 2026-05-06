@@ -41,7 +41,7 @@ class Ayah(models.Model):
         verbose_name_plural = "آیات"
 
     def __str__(self):
-        return f"{self.surah.name_fa} - آیه {self.number}"
+        return f"سوره {self.surah.name_fa} - آیه {self.number}"
 
     def save(self, *args, **kwargs):
         """قبل از ذخیره، text_prefix را از ۲۰ کاراکتر اول text پر کن"""

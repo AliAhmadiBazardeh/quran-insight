@@ -1,4 +1,33 @@
 import re
+import requests
+import json
+from django.conf import settings
+
+def send_message_to_channel(request,obj, change):
+
+    action = "📝 ویرایش"
+    info = str(obj)
+    if not change:
+        action = "☑️ ایجاد"
+
+    message = (
+        f"📖 {info}\n "
+        f"👤 توسط *🌟{request.user.full_name or request.user.username}*🌟\n "
+        f"{action} شد."
+    )
+
+    parameters = {
+        "chat_id": settings.BALE_CHAT_ID,
+        "text": message
+    }
+
+    response = requests.post(settings.URL, data=parameters)
+
+    if response.status_code == 200:
+        print(response.json())
+    else:
+        print("error", response.status_code)
+
 
 def normalize_persian(text_type: str, text: str) -> str:
     """Remove diacritics & normalize Persian/Arabic letters."""
