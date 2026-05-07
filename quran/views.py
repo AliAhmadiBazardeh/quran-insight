@@ -50,7 +50,7 @@ def get_tafsir(request):
 
     tafsirs = Tafsir.objects.filter(
         ayah_list__id=ayah_id
-    ).order_by('tafsir_source__order_priority', 'order_priority')
+    ).order_by('tafsir_source__order_priority')
 
     data = []
     for t in tafsirs:
@@ -60,7 +60,6 @@ def get_tafsir(request):
             'id': t.id,
             'source': t.tafsir_source.title,
             'text': t.text,
-            'order_priority': t.order_priority,
             'same_tafsir_numbers': [
                 {
                     'ayah_number': ayah['number'],
