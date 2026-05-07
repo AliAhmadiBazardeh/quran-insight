@@ -1,7 +1,7 @@
 from django.db import models
 from .helper import normalize_persian
 from django.conf import settings
-from django.core.exceptions import ValidationError
+from django.contrib import admin as admin_decorators
 
 class Surah(models.Model):
     """مدل سوره‌های قرآن"""
@@ -32,13 +32,19 @@ class Ayah(models.Model):
     number= models.PositiveSmallIntegerField(verbose_name="شماره آیه در سوره")
     text = models.TextField(verbose_name="متن کامل آیه (عربی)")
     text_fa = models.TextField(blank=True, verbose_name="متن کامل آیه (فارسی)")
-    text_prefix = models.CharField(max_length=50, blank=True, verbose_name="۲۰ کاراکتر اول آیه (برای نمایش سریع)")
+    text_prefix = models.CharField(max_length=50, blank=True, verbose_name="متن")
+
+    @property
+    @admin_decorators.display(description="منابع تفسیر")
+    def tafsir_sources(self):
+        return "، ".join([t.tafsir_source.title for t in self.tafsir_list.all() if t.tafsir_source]) or "—"
 
     class Meta:
         ordering = ['surah__number', 'number']
         unique_together = ['surah', 'number']  # ترکیب سوره + شماره آیه یکتا باشد
         verbose_name = "آیه"
         verbose_name_plural = "آیات"
+
 
     def __str__(self):
         return f"سوره {self.surah.name_fa} - آیه {self.number}"
