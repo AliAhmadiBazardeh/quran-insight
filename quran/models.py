@@ -70,10 +70,6 @@ class Tafsir(models.Model):
         related_name='tafsirs',
         verbose_name="منبع تفسیر")
     text = models.TextField(verbose_name="متن تفسیر")
-    order_priority = models.PositiveSmallIntegerField(
-        default=1,
-        verbose_name="اولویت ترتیب نمایش"
-    )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -84,12 +80,8 @@ class Tafsir(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ بروزرسانی")
 
     class Meta:
-        ordering = ['order_priority']
         verbose_name = "تفسیر"
         verbose_name_plural = "تفاسیر"
-        indexes = [
-            models.Index(fields=['order_priority']),
-        ]
 
     def __str__(self):
         ayah_list = ', '.join(str(ayah) for ayah in self.ayah_list.all())

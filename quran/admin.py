@@ -2,7 +2,7 @@ from .form import TafsirAdminForm
 from django.contrib import admin
 from .models import Surah, Ayah, Tafsir, TafsirSource
 from . import helper
-from django.db.models import Prefetch
+from jdatetime import datetime as jdatetime
 
 
 class TafsirAyahLinkInline(admin.TabularInline):
@@ -73,11 +73,18 @@ class TafsirSourceAdmin(admin.ModelAdmin):
 class TafsirAdmin(admin.ModelAdmin):
     form = TafsirAdminForm
 
-    list_display = ['get_ayah_list', 'tafsir_source', 'order_priority']
+    list_display = ['get_ayah_list','tafsir_source', 'created_by','get_shamsi_date']
     search_fields = ['ayah_list__surah__name_fa', 'ayah_list__number', 'text']
     autocomplete_fields = ['ayah_list', 'tafsir_source']
     readonly_fields = ['created_by']
 
+    def get_shamsi_date(self, obj):
+        if obj.created_at:
+            jalali_date = jdatetime.fromgregorian(datetime=obj.created_at)
+            return jalali_date.strftime('%Y/%m/%d %H:%M')
+        return '-'
+
+    get_shamsi_date.short_description = 'تاریخ ایجاد'
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
