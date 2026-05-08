@@ -1,10 +1,10 @@
 from django.db import models
-
+from quran import helper
 
 class Feedback(models.Model):
     FEEDBACK_TYPES = [
         ('suggestion', 'پیشنهاد'),
-        ('search_problem,', 'مشکل جستجوی آیه'),
+        ('search_problem', 'مشکل جستجوی آیه'),
         ('bug', 'گزارش باگ'),
         ('question', 'سوال'),
         ('other', 'سایر'),
@@ -28,4 +28,9 @@ class Feedback(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.name} - {self.get_feedback_type_display()}"
+        return f"{self.get_feedback_type_display()}"
+
+    def save(self, *args, **kwargs):
+
+        super().save(*args, **kwargs)
+        helper.send_feedback_to_channel(self.get_feedback_type_display(), self.message)

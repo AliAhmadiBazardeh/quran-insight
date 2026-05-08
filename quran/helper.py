@@ -28,6 +28,23 @@ def send_message_to_channel(request,obj, change):
     else:
         print("error", response.status_code)
 
+def send_feedback_to_channel(feedback_type, text):
+    message = (
+        f"*{feedback_type}*\n\n "
+        f"{text} "
+    )
+
+    parameters = {
+        "chat_id": settings.BALE_FEEDBACK_CHANNEL_ID,
+        "text": message
+    }
+
+    response = requests.post(settings.URL, data=parameters)
+
+    if response.status_code == 200:
+        print(response.json())
+    else:
+        print("error", response.status_code)
 
 def normalize_persian(text_type: str, text: str) -> str:
     """Remove diacritics & normalize Persian/Arabic letters."""
