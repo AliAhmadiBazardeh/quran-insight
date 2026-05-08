@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}ثبت بازخورد - تفسیر قرآن{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-12 px-4">
+    <div class="max-w-2xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-slate-800 mb-3">📝 ثبت بازخورد</h1>
+            <p class="text-slate-600">نظرات و پیشنهادات شما برای ما ارزشمند است</p>
+        </div>
+
+        <!-- Success Message -->
+        {% if messages %}
+            {% for message in messages %}
+            <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Form Card -->
+        <div class="bg-white/40 backdrop-blur-sm rounded-2xl shadow-lg p-8">
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+
+                <!-- Feedback Type -->
+                <div>
+                    <label class="block text-slate-700 font-medium mb-2">نوع بازخورد </label>
+                    {{ form.feedback_type }}
+                    {% if form.feedback_type.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.feedback_type.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Message Field -->
+                <div>
+                    <label class="block text-slate-700 font-medium mb-2">پیام</label>
+                    {{ form.message }}
+                    {% if form.message.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.message.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                        class="w-full bg-slate-600 hover:bg-slate-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
+                    ارسال بازخورد
+                </button>
+            </form>
+        </div>
+
+        <!-- Info Box -->
+        <div class="mt-6 bg-slate-100 rounded-lg p-6">
+            <h3 class="font-semibold text-slate-800 mb-2">💡 راهنما</h3>
+            <ul class="text-slate-600 text-sm space-y-1">
+                <li>• پیشنهادات خود را برای بهبود سایت با ما در میان بگذارید</li>
+                <li>• مشکلات فنی را گزارش دهید</li>
+                <li>• سوالات خود را مطرح کنید</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
