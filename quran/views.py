@@ -9,6 +9,12 @@ from .models import Ayah, Tafsir
 def index(request):
     return render(request, "quran/index.html")
 
+def about_view(request):
+    return render(request, 'quran/about.html')
+
+def support_view(request):
+    return render(request, 'quran/support.html')
+
 @csrf_exempt
 @require_http_methods(["GET"])
 def live_search(request):

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}درباره ما{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-r from-slate-200 to-slate-50 py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-slate-800 mb-4">📖 درباره ما</h1>
+            <div class="w-24 h-1 bg-slate-600 mx-auto rounded"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+            <div class="prose prose-slate max-w-none">
+                <h2 class="text-2xl font-bold text-slate-800 mb-4">🌟 مأموریت ما</h2>
+                <p class="text-slate-700 leading-relaxed mb-6">
+
+                    ایده سامانه تفسیر جو با دغدغه آسان تر شدن دسترسی به تفاسیر و انس بیشتر مردم کشورمان با قرآن مطرح شده
+                    است.
+                    <br><br>
+                    بنده و همکاران در سامانه تفسیرجو بدون هیچ وابستگی به نهاد یا ارگان خاص و کاملا مستقل با توکل بر
+                    خداوند متعال در راستای توسعه و افزودن امکانات کاربردی مفید، مرحله به مرحله پیش خواهیم رفت.
+                    <br><br>
+                    بابت ویژگی های فعلی سامانه و امکانات هوشمند آینده که انشاءالله اضافه خواهد شد هیچ مبلغ و هزینه ای از
+                    کاربران دریافت نخواهد شد و سامانه کاملا رایگان می باشد.
+
+                    <br><br>
+                    انشاءالله با لطف خداوند متعال و عنایت حضرت ولی عصر عجل الله تعالی فرجه این جهاد رو به نیت قدم
+                    برداشتن در راستای تسهیل و رفع موانع ظهور حضرتش به طور مستمر ادامه خواهیم داد.
+                </p>
+
+                <h2 class="text-2xl font-bold text-slate-800 mb-4">✨ ویژگی‌های پلتفرم</h2>
+                <ul class="list-disc list-inside text-slate-700 space-y-2 mb-6">
+                    <li>دسترسی آسان به تفسیر تمام آیات قرآن کریم</li>
+                    <li>رابط کاربری ساده </li>
+                    <li>جستجوی پیشرفته آیه محور در متن قرآن</li>
+                    <li>طراحی ریسپانسیو برای موبایل و تبلت</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold text-slate-800 mb-4">🎯 اهداف ما</h2>
+                  <ul class="list-disc list-inside text-slate-700 space-y-2 mb-6">
+                    <li>دسترسی آسان و لحظه ای به تفاسیر آیات</li>
+                    <li>انس بیشتر مردم شریف ایران با قرآن کریم</li>
+                    <li>(در آینده)    استفاده از هوش مصنوعی جهت تسهیل فهم و تطبیق مفهموم آیات با زمان کنونی</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold text-slate-800 mb-4">💡 تیم ما</h2>
+                <p class="text-slate-700 leading-relaxed">
+                    این پروژه توسط جمعی از جوانان دغدغه مند انقلابی و عاشق قرآن کریم توسعه یافته است.
+                    ما همواره در تلاش برای بهبود و ارتقای کیفیت خدمات هستیم.
+                </p>
+            </div>
+        </div>
+
+        <!-- Contact Box -->
+        <div class="bg-gradient-to-r from-slate-600 to-slate-700 rounded-2xl shadow-xl p-8 text-white">
+            <h3 class="text-2xl font-bold mb-4">📬 ارتباط با ما</h3>
+            <p class="mb-4">نظرات و پیشنهادات خود را با ما در میان بگذارید:</p>
+            <a href="{% url 'feedback' %}"
+               class="inline-block bg-white text-slate-700 px-6 py-3 rounded-lg font-semibold hover:bg-slate-100 transition duration-300">
+                ارسال بازخورد
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

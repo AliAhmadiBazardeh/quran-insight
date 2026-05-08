@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}حمایت مالی{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-r from-slate-200 to-slate-50 py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-slate-800 mb-4">💝 حمایت مالی</h1>
+            <div class="w-24 h-1 bg-slate-600 mx-auto rounded"></div>
+            <p class="text-slate-600 mt-4">
+
+                سامانه تفسیرجو بدون هیچ وابستگی به نهاد یا ارگان خاص و کاملا مستقل با توکل بر
+                    خداوند متعال و به واسطه کمک های شما در راستای توسعه و افزودن امکانات کاربردی مفید، مرحله به مرحله پیش خواهد رفت.
+            </p>
+        </div>
+
+        <!-- Why Support -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">🌱 آینده سامانه</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="flex items-start space-x-3 space-x-reverse">
+                    <span class="text-3xl">🚀</span>
+                    <div>
+                        <h3 class="font-bold text-slate-800 mb-2">توسعه ویژگی‌های جدید</h3>
+                        <p class="text-slate-600 text-sm">افزودن امکانات بیشتر برای تجربه بهتر</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3 space-x-reverse">
+                    <span class="text-3xl">⚡</span>
+                    <div>
+                        <h3 class="font-bold text-slate-800 mb-2">بهبود سرعت و کارایی</h3>
+                        <p class="text-slate-600 text-sm">ارتقای سرورها و زیرساخت‌ها</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3 space-x-reverse">
+                    <span class="text-3xl">🎨</span>
+                    <div>
+                        <h3 class="font-bold text-slate-800 mb-2">طراحی بهتر</h3>
+                        <p class="text-slate-600 text-sm">رابط کاربری زیباتر و کاربردی‌تر</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3 space-x-reverse">
+                    <span class="text-3xl">🔒</span>
+                    <div>
+                        <h3 class="font-bold text-slate-800 mb-2">امنیت و پایداری</h3>
+                        <p class="text-slate-600 text-sm">حفظ و نگهداری پلتفرم</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Donation Methods -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">💳 روش‌های حمایت</h2>
+            
+            <!-- Card Number -->
+            <div class="bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl p-6 mb-6 text-white">
+                <p class="text-sm mb-2 opacity-90">شماره کارت</p>
+                <p class="text-2xl font-mono tracking-wider mb-3" dir="ltr">6037-9972-4197-1051</p>
+                <p class="text-sm">به نام: علی احمدی بازارده</p>
+            </div>
+
+            <!-- Sheba Number -->
+            <div class="bg-slate-100 rounded-xl p-6 mb-6">
+                <p class="text-sm text-slate-600 mb-2">شماره شبا</p>
+                <p class="text-xl font-mono text-slate-800" dir="ltr">IR 56 0170 0000 0035 0944 5990 02</p>
+            </div>
+
+            <!-- Crypto (Optional) -->
+<!--            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6">-->
+<!--                <h3 class="font-bold text-slate-800 mb-3">🪙 حمایت با ارز دیجیتال</h3>-->
+<!--                <p class="text-slate-600 text-sm mb-3">آدرس کیف پول (اختیاری):</p>-->
+<!--                <div class="bg-slate-50 rounded-lg p-3 font-mono text-xs text-slate-700 break-all">-->
+<!--                    [آدرس کیف پول]-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+
+        <!-- Thank You Message -->
+        <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl shadow-xl p-8 text-white text-center">
+            <h3 class="text-3xl font-bold mb-4">🙏 سپاسگزاریم</h3>
+            <p class="text-lg leading-relaxed">
+                بابت ویژگی های فعلی سامانه و امکانات هوشمند آینده که انشاءالله اضافه خواهد شد هیچ مبلغ و هزینه ای از کاربران دریافت نخواهد شد و سامانه کاملا رایگان می باشد
+
+            </p>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="text-center mt-8">
+            <a href="{% url 'index' %}" 
+               class="inline-block text-slate-600 hover:text-slate-800 transition duration-300">
+                ← بازگشت به صفحه اصلی
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
