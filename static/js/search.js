@@ -51,7 +51,7 @@ async function performSearch(query) {
         const response = await fetch(`/api/search/?q=${encodeURIComponent(query)}`);
         if (!response.ok) throw new Error('خطا در دریافت نتایج');
         const data = await response.json();
-        renderResults(data.results);
+        renderResults(data.results, query);
     } catch (error) {
         console.error('Error:', error);
         if (resultsList) resultsList.innerHTML = '';
@@ -65,13 +65,22 @@ async function performSearch(query) {
     }
 }
 
-function renderResults(results) {
+function renderResults(results, query = '') {
     if (!resultsList || !noResultsMsg || !searchResultsDiv) return;
     resultsList.innerHTML = '';
 
     if (!results || results.length === 0) {
         noResultsMsg.classList.remove('hidden');
         resultsList.classList.add('hidden');
+
+        const reportBtn = document.getElementById('reportSearchBtn');
+        if (reportBtn){
+            reportBtn.dataset.query = query;
+            reportBtn.textContent = 'ثبت گزارش اشکال در جستجو';
+            reportBtn.classList.remove('bg-green-100', 'text-green-800', 'opacity-50', 'pointer-events-none');
+            reportBtn.classList.add('bg-red-100', 'text-red-800');
+        }
+
     } else {
         noResultsMsg.classList.add('hidden');
         resultsList.classList.remove('hidden');
@@ -111,4 +120,40 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSearch);
 } else {
     initSearch();
+}
+
+document.getElementById('reportSearchBtn')?.addEventListener('click', async function () {
+    const query = this.dataset.query;
+    if (!query) return;
+
+    this.textContent = 'در حال ارسال...';
+    this.classList.add('opacity-50', 'pointer-events-none');
+
+    try {
+        const response = await fetch('/feedback/api/report-search-problem/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({ query }),
+        });
+
+        if (response.ok) {
+            this.textContent = 'گزارش ثبت شد ✓';
+            this.classList.replace('bg-red-100', 'bg-green-100');
+            this.classList.replace('text-red-800', 'text-green-800');
+        } else {
+            this.textContent = 'خطا در ارسال';
+        }
+    } catch {
+        this.textContent = 'خطا در ارسال';
+    }
+});
+
+function getCookie(name) {
+    return document.cookie.split(';')
+        .map(c => c.trim())
+        .find(c => c.startsWith(name + '='))
+        ?.split('=')[1] ?? null;
 }
