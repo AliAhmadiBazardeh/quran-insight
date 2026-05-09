@@ -15,6 +15,10 @@ def about_view(request):
 def support_view(request):
     return render(request, 'quran/support.html')
 
+def contact_view(request):
+    """نمایش صفحه تماس با ما"""
+    return render(request, 'quran/contact.html')
+
 @csrf_exempt
 @require_http_methods(["GET"])
 def live_search(request):

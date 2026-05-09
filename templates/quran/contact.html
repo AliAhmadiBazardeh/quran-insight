@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}تماس با ما{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-r from-slate-200 to-slate-50 py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-slate-800 mb-4">📞 تماس با ما</h1>
+            <div class="w-24 h-1 bg-slate-600 mx-auto rounded"></div>
+            <p class="text-slate-600 mt-4">از طریق شبکه‌های اجتماعی با ما در ارتباط باشید</p>
+        </div>
+
+        <!-- Social Media Cards -->
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <!-- Bale -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition duration-300">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 text-center mb-4">بله (Bale)</h3>
+                <div class="bg-slate-50 rounded-lg p-4 mb-4">
+                    <p class="text-sm text-slate-600 mb-2 text-center">شناسه کاربری:</p>
+                    <p class="text-xl font-bold text-slate-800 text-center" dir="ltr">@tafsirjoo</p>
+                </div>
+                <a href="https://ble.ir/@tafsirjoo"
+                   target="_blank"
+                   class="block w-full bg-gradient-to-r from-green-500 to-green-600 text-white text-center py-3 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition duration-300">
+                    ارسال پیام در بله
+                </a>
+            </div>
+
+            <!-- Eitaa -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition duration-300">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 text-center mb-4">ایتا (Eitaa)</h3>
+                <div class="bg-slate-50 rounded-lg p-4 mb-4">
+                    <p class="text-sm text-slate-600 mb-2 text-center">شناسه کاربری:</p>
+                    <p class="text-xl font-bold text-slate-800 text-center" dir="ltr">@tafsirjoo</p>
+                </div>
+                <a href="https://eitaa.com/@tafsirjoo"
+                   target="_blank"
+                   class="block w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white text-center py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition duration-300">
+                    ارسال پیام در ایتا
+                </a>
+            </div>
+        </div>
+
+        <!-- Additional Info -->
+<!--        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">-->
+<!--            <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center">💬 راه‌های ارتباطی</h2>-->
+<!--            <div class="space-y-4">-->
+<!--                <div class="flex items-start space-x-3 space-x-reverse p-4 bg-slate-50 rounded-lg">-->
+<!--                    <span class="text-2xl">📧</span>-->
+<!--                    <div class="flex-1">-->
+<!--                        <h3 class="font-bold text-slate-800 mb-1">ایمیل</h3>-->
+<!--                        <p class="text-slate-600" dir="ltr">info@example.com</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                -->
+<!--                <div class="flex items-start space-x-3 space-x-reverse p-4 bg-slate-50 rounded-lg">-->
+<!--                    <span class="text-2xl">📝</span>-->
+<!--                    <div class="flex-1">-->
+<!--                        <h3 class="font-bold text-slate-800 mb-1">فرم بازخورد</h3>-->
+<!--                        <p class="text-slate-600 mb-2">برای ارسال پیشنهادات و گزارش مشکلات</p>-->
+<!--                        <a href="{% url 'feedback' %}" -->
+<!--                           class="text-blue-600 hover:text-blue-700 font-semibold">-->
+<!--                            ارسال بازخورد ←-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="flex items-start space-x-3 space-x-reverse p-4 bg-slate-50 rounded-lg">-->
+<!--                    <span class="text-2xl">⏰</span>-->
+<!--                    <div class="flex-1">-->
+<!--                        <h3 class="font-bold text-slate-800 mb-1">ساعات پاسخگویی</h3>-->
+<!--                        <p class="text-slate-600">شنبه تا چهارشنبه: ۹ صبح تا ۶ عصر</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; FAQ Section &ndash;&gt;-->
+<!--        <div class="bg-gradient-to-r from-slate-600 to-slate-700 rounded-2xl shadow-xl p-8 text-white">-->
+<!--            <h3 class="text-2xl font-bold mb-4 text-center">❓ سوالات متداول</h3>-->
+<!--            <div class="space-y-3 text-sm">-->
+<!--                <p>✅ برای گزارش باگ از فرم بازخورد استفاده کنید</p>-->
+<!--                <p>✅ برای پیشنهادات و انتقادات می‌توانید در شبکه‌های اجتماعی پیام دهید</p>-->
+<!--                <p>✅ پاسخ پیام‌ها معمولاً ظرف ۲۴ ساعت ارسال می‌شود</p>-->
+<!--                <p>✅ برای حمایت مالی به بخش حمایت مراجعه کنید</p>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+                {% include "quran/_feedback.html" %}
+
+    </div>
+</div>
+{% endblock %}
