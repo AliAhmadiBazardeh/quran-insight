@@ -8,5 +8,6 @@ urlpatterns = [
     path('contact/', views.contact_view, name='contact'),
     path('api/search/', views.live_search, name='live_search'),  # API جستجو
     path('api/tafsir/', views.get_tafsir, name='get_tafsir'),
+    path('dashboard/', views.dashboard_view, name='dashboard'),
 
 ]

@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.db.models import Q
-from .models import Ayah, Tafsir
+from .models import Ayah, Tafsir, TafsirSource, Surah
 
 def index(request):
     return render(request, "quran/index.html")
@@ -90,3 +90,80 @@ def get_tafsir(request):
         'text': ayah.text,
         'text_prefix': ayah.text_prefix,
     }}, json_dumps_params={'ensure_ascii': False})
+
+
+def dashboard_view(request):
+    """صفحه داشبورد با چارت‌های Pie"""
+
+    tafsir_sources = list(TafsirSource.objects.all().order_by('order_priority'))
+
+    # رنگ‌های پیش‌فرض
+    colors = [
+        '#5470c6', '#91cc75', '#fac858', '#ee6666',
+        '#73c0de', '#3ba272', '#fc8452', '#9a60b4'
+    ]
+
+    # دریافت تمام سوره‌ها با آیات و تفاسیر
+    surahs = Surah.objects.prefetch_related(
+        'ayahs__tafsir_list__tafsir_source'
+    ).all()
+
+    surahs_stats = []
+
+    for surah in surahs:
+        total_verses = surah.total_verses
+        ayahs = list(surah.ayahs.all())
+
+        # محاسبه آیات دارای تفسیر
+        ayahs_with_tafsir_set = set()
+        source_ayah_map = {source.id: set() for source in tafsir_sources}
+
+        for ayah in ayahs:
+            tafsirs = list(ayah.tafsir_list.all())
+            if tafsirs:
+                ayahs_with_tafsir_set.add(ayah.id)
+                for tafsir in tafsirs:
+                    source_ayah_map[tafsir.tafsir_source_id].add(ayah.id)
+
+        ayahs_with_tafsir = len(ayahs_with_tafsir_set)
+        verses_without_tafsir = total_verses - ayahs_with_tafsir
+
+        # آمار منابع
+        sources_stats = []
+        for idx, source in enumerate(tafsir_sources):
+            ayah_count = len(source_ayah_map[source.id])
+            if ayah_count > 0:
+                sources_stats.append({
+                    'source_id': source.id,
+                    'source_title': source.title,
+                    'ayah_count': ayah_count,
+                    'color': colors[idx % len(colors)]
+                })
+
+        completion_percentage = (ayahs_with_tafsir / total_verses * 100) if total_verses > 0 else 0
+
+        surahs_stats.append({
+            'surah_id': surah.id,
+            'surah_name': surah.name_fa,
+            'surah_number': surah.number,
+            'total_verses': total_verses,
+            'verses_with_tafsir': ayahs_with_tafsir,
+            'verses_without_tafsir': verses_without_tafsir,
+            'completion_percentage': round(completion_percentage, 2),
+            'sources_stats': sources_stats
+        })
+
+    context = {
+        'surahs_stats': surahs_stats,
+        'tafsir_sources': [
+            {
+                'id': s.id,
+                'title': s.title,
+                'color': colors[idx % len(colors)]
+            }
+            for idx, s in enumerate(tafsir_sources)
+        ],
+        'total_sources': len(tafsir_sources)
+    }
+
+    return render(request, 'quran/dashboard.html', context)
