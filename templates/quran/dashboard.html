@@ -19,6 +19,30 @@
             <p class="text-gray-600 text-lg">نمایش وضعیت تفسیر آیات به تفکیک سوره</p>
         </div>
 
+
+        <!-- خلاصه آمار -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mt-8 mb-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">📈 خلاصه آمار کلی</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl">
+                    <div class="text-4xl font-bold text-purple-600 mb-2">{{ surahs_stats|length }}</div>
+                    <div class="text-gray-600">تعداد سوره‌ها</div>
+                </div>
+                <div class="text-center p-6 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl">
+                    <div class="text-4xl font-bold text-indigo-600 mb-2">{{ total_sources }}</div>
+                    <div class="text-gray-600">منابع تفسیر</div>
+                </div>
+                <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
+                    <div class="text-4xl font-bold text-blue-600 mb-2" id="total-verses">0</div>
+                    <div class="text-gray-600">مجموع آیات</div>
+                </div>
+                <div class="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl">
+                    <div class="text-4xl font-bold text-green-600 mb-2" id="total-with-tafsir">0</div>
+                    <div class="text-gray-600">آیات دارای تفسیر</div>
+                </div>
+            </div>
+        </div>
+
         <!-- راهنمای رنگ‌ها -->
         <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
             <h3 class="text-2xl font-bold text-gray-800 mb-4">🎨 راهنمای منابع تفسیر</h3>
@@ -56,28 +80,6 @@
             {% endfor %}
         </div>
 
-        <!-- خلاصه آمار -->
-        <div class="bg-white rounded-xl shadow-lg p-6 mt-8">
-            <h3 class="text-2xl font-bold text-gray-800 mb-6">📈 خلاصه آمار کلی</h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl">
-                    <div class="text-4xl font-bold text-purple-600 mb-2">{{ surahs_stats|length }}</div>
-                    <div class="text-gray-600">تعداد سوره‌ها</div>
-                </div>
-                <div class="text-center p-6 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl">
-                    <div class="text-4xl font-bold text-indigo-600 mb-2">{{ total_sources }}</div>
-                    <div class="text-gray-600">منابع تفسیر</div>
-                </div>
-                <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
-                    <div class="text-4xl font-bold text-blue-600 mb-2" id="total-verses">0</div>
-                    <div class="text-gray-600">مجموع آیات</div>
-                </div>
-                <div class="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl">
-                    <div class="text-4xl font-bold text-green-600 mb-2" id="total-with-tafsir">0</div>
-                    <div class="text-gray-600">آیات دارای تفسیر</div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script>
