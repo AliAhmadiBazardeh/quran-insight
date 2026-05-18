@@ -177,10 +177,10 @@
              trigger: 'item',
              formatter: params => {
                  const percent = params.percent.toFixed(1);
-                 return `<strong>${params.name}</strong><br/>تعداد: ${params.value} آیه<br/>درصد: ${percent}%`;
+                 return `<strong>تفسیر ${params.name}</strong><br/>تعداد: ${params.value} آیه<br/>درصد: ${percent}%`;
              },
              backgroundColor: 'rgba(50, 50, 50, 0.9)',
-             textStyle: { color: '#fff',fontFamily:'Vazir', fontSize: 13 }
+             textStyle: { color: '#fff',fontFamily:'Vazir', fontSize: 16 }
          },
          series: [{
              type: 'pie',
@@ -195,7 +195,7 @@
              label: {
                  position: 'inside',
                  formatter: params => `${params.name}\n${params.value} آیه`,
-                 fontSize: 12,
+                 fontSize: 14,
                  fontWeight: 'bold',
                  fontFamily:'Vazir',
              },
