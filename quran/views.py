@@ -121,7 +121,7 @@ def dashboard_view(request):
     all_surahs = Surah.objects.prefetch_related(
         'ayahs__tafsir_list__tafsir_source'
     ).order_by('number')  # یا 'id' به دلخواه
-    paginator = Paginator(all_surahs, 9)  # هر صفحه ۹ سوره
+    paginator = Paginator(all_surahs, 3)  # هر صفحه 3 سوره
     page_obj = paginator.get_page(page_number)
 
     # -------- ۳. ساخت آمار فقط برای سوره‌های صفحه جاری --------

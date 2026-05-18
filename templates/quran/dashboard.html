@@ -41,39 +41,60 @@
     </div>
 
 
-     <!-- صفحه‌بندی -->
+    <!-- صفحه‌بندی -->
     {% if page_obj.paginator.num_pages > 1 %}
-    <div class="flex justify-center">
-        <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Page navigation">
+    <div class="flex justify-center mt-8">
+        <nav class="inline-flex items-center gap-1" aria-label="Page navigation" dir="ltr">
             {% if page_obj.has_previous %}
             <a href="?page={{ page_obj.previous_page_number }}"
-               class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">
-                قبلی
+               class="flex items-center justify-center w-10 h-10 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-300 transition-all duration-200 shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
             </a>
             {% else %}
-            <span class="px-4 py-2 text-sm font-medium text-gray-400 bg-gray-100 border border-gray-300 rounded-r-md cursor-not-allowed">قبلی</span>
+            <span class="flex items-center justify-center w-10 h-10 text-sm font-medium text-gray-300 bg-gray-50 border border-gray-200 rounded-lg cursor-not-allowed">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </span>
             {% endif %}
 
-            {% for num in page_obj.paginator.page_range %}
+            <div class="flex items-center gap-1 mx-2">
+                {% for num in page_obj.paginator.page_range %}
                 {% if num == page_obj.number %}
-                <span class="px-4 py-2 text-sm font-bold text-white bg-indigo-600 border border-indigo-600">
-                    {{ num }}
-                </span>
+                <span class="flex items-center justify-center w-10 h-10 text-sm font-bold text-white bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-lg shadow-md">
+                {{ num }}
+            </span>
                 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                 <a href="?page={{ num }}"
-                   class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">
+                   class="flex items-center justify-center w-10 h-10 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-300 transition-all duration-200 shadow-sm">
                     {{ num }}
                 </a>
+                {% elif num == 1 or num == page_obj.paginator.num_pages %}
+                <a href="?page={{ num }}"
+                   class="flex items-center justify-center w-10 h-10 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-300 transition-all duration-200 shadow-sm">
+                    {{ num }}
+                </a>
+                {% elif num == page_obj.number|add:'-3' or num == page_obj.number|add:'3' %}
+                <span class="flex items-center justify-center w-10 h-10 text-gray-400">...</span>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
+            </div>
 
             {% if page_obj.has_next %}
             <a href="?page={{ page_obj.next_page_number }}"
-               class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">
-                بعدی
+               class="flex items-center justify-center w-10 h-10 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-300 transition-all duration-200 shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
             </a>
             {% else %}
-            <span class="px-4 py-2 text-sm font-medium text-gray-400 bg-gray-100 border border-gray-300 rounded-l-md cursor-not-allowed">بعدی</span>
+            <span class="flex items-center justify-center w-10 h-10 text-sm font-medium text-gray-300 bg-gray-50 border border-gray-200 rounded-lg cursor-not-allowed">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+        </span>
             {% endif %}
         </nav>
     </div>
@@ -81,128 +102,128 @@
 </div>
 
 
-
-    <!-- چارت‌های سوره‌ها -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {% for surah in surahs_stats %}
-        <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-            <div class="text-center mb-4 pb-4 border-b-2 border-gray-100">
-                <h3 class="text-xl font-bold text-gray-800 mb-2">{{ surah.surah_number }}. {{ surah.surah_name }}</h3>
-                <div class="text-gray-600 text-sm">
-                    <strong class="text-purple-600">{{ surah.verses_with_tafsir }}</strong> از
-                    <strong class="text-gray-800">{{ surah.total_verses }}</strong> آیه دارای تفسیر
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
-                    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 h-2 rounded-full transition-all duration-1000"
-                         style="width: {{ surah.completion_percentage }}%;"></div>
-                </div>
+<!-- چارت‌های سوره‌ها -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for surah in surahs_stats %}
+    <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+        <div class="text-center mb-4 pb-4 border-b-2 border-gray-100">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ surah.surah_number }}. {{ surah.surah_name }}</h3>
+            <div class="text-gray-600 text-sm">
+                <strong class="text-purple-600">{{ surah.verses_with_tafsir }}</strong> از
+                <strong class="text-gray-800">{{ surah.total_verses }}</strong> آیه دارای تفسیر
             </div>
-            <div class="h-80" id="chart-{{ surah.surah_id }}"></div>
+            <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
+                <div class="bg-gradient-to-r from-purple-600 to-indigo-600 h-2 rounded-full transition-all duration-1000"
+                     style="width: {{ surah.completion_percentage }}%;"></div>
+            </div>
         </div>
-        {% empty %}
-        <p class="text-center text-gray-500 col-span-full">هیچ سوره‌ای یافت نشد.</p>
-        {% endfor %}
+        <div class="h-80" id="chart-{{ surah.surah_id }}"></div>
     </div>
+    {% empty %}
+    <p class="text-center text-gray-500 col-span-full">هیچ سوره‌ای یافت نشد.</p>
+    {% endfor %}
+</div>
 
 </div>
 
 
-
-   <!-- راهنمای رنگ‌ها -->
-    <div class="bg-white rounded-xl shadow-lg p-6 mb-8 mt-8">
-        <h3 class="text-2xl font-bold text-gray-800 mb-4">🎨 راهنمای منابع تفسیر</h3>
-        <div class="flex flex-wrap gap-4">
-            {% for source in tafsir_sources %}
-            <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-lg hover:shadow-md transition">
-                <div class="w-6 h-6 rounded-md shadow-md" style="background-color: {{ source.color }};"></div>
-                <span class="font-medium text-gray-700">{{ source.title }}</span>
-            </div>
-            {% endfor %}
-            <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-lg hover:shadow-md transition">
-                <div class="w-6 h-6 rounded-md shadow-md bg-gray-300"></div>
-                <span class="font-medium text-gray-700">بدون تفسیر</span>
-            </div>
+<!-- راهنمای رنگ‌ها -->
+<div class="bg-white rounded-xl shadow-lg p-6 mb-8 mt-8">
+    <h3 class="text-2xl font-bold text-gray-800 mb-4">🎨 راهنمای منابع تفسیر</h3>
+    <div class="flex flex-wrap gap-4">
+        {% for source in tafsir_sources %}
+        <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-lg hover:shadow-md transition">
+            <div class="w-6 h-6 rounded-md shadow-md" style="background-color: {{ source.color }};"></div>
+            <span class="font-medium text-gray-700">{{ source.title }}</span>
+        </div>
+        {% endfor %}
+        <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-lg hover:shadow-md transition">
+            <div class="w-6 h-6 rounded-md shadow-md bg-gray-300"></div>
+            <span class="font-medium text-gray-700">بدون تفسیر</span>
         </div>
     </div>
+</div>
 
 <script>
-   const surahsData = {{ surahs_stats|safe }};
+    const surahsData = {{ surahs_stats|safe }};
 
-// ایجاد چارت برای هر سوره
-surahsData.forEach(surah => {
-    const chartDom = document.getElementById(`chart-${surah.surah_id}`);
-    if (!chartDom) return;   // اگر المان پیدا نشد از این سوره رد شو
+ // ایجاد چارت برای هر سوره
+ surahsData.forEach(surah => {
+     const chartDom = document.getElementById(`chart-${surah.surah_id}`);
+     if (!chartDom) return;   // اگر المان پیدا نشد از این سوره رد شو
 
-    const myChart = echarts.init(chartDom);
+     const myChart = echarts.init(chartDom);
 
-    const chartData = [];
+     const chartData = [];
 
-    surah.sources_stats.forEach(source => {
-        chartData.push({
-            name: source.source_title,
-            value: source.ayah_count,
-            itemStyle: { color: source.color }
-        });
-    });
+     surah.sources_stats.forEach(source => {
+         chartData.push({
+             name: source.source_title,
+             value: source.ayah_count,
+             itemStyle: { color: source.color }
+         });
+     });
 
-    if (surah.verses_without_tafsir > 0) {
-        chartData.push({
-            name: 'بدون تفسیر',
-            value: surah.verses_without_tafsir,
-            itemStyle: { color: '#e0e0e0' }
-        });
-    }
+     if (surah.verses_without_tafsir > 0) {
+         chartData.push({
+             name: 'بدون تفسیر',
+             value: surah.verses_without_tafsir,
+             itemStyle: { color: '#e0e0e0' }
+         });
+     }
 
-    const option = {
-        tooltip: {
-            trigger: 'item',
-            formatter: params => {
-                const percent = params.percent.toFixed(1);
-                return `<strong>${params.name}</strong><br/>تعداد: ${params.value} آیه<br/>درصد: ${percent}%`;
-            },
-            backgroundColor: 'rgba(50, 50, 50, 0.9)',
-            textStyle: { color: '#fff', fontSize: 13 }
-        },
-        series: [{
-            type: 'pie',
-            radius: ['45%', '75%'],
-            itemStyle: {
-                borderRadius: 8,
-                borderColor: '#fff',
-                borderWidth: 3,
-                shadowBlur: 10,
-                shadowColor: 'rgba(0, 0, 0, 0.2)'
-            },
-            label: {
-                formatter: params => `${params.name}\n${params.value} آیه`,
-                fontSize: 12,
-                fontWeight: 'bold'
-            },
-            emphasis: {
-                itemStyle: {
-                    shadowBlur: 20,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            },
-            animationType: 'scale',
-            animationEasing: 'elasticOut',
-            animationDelay: idx => idx * 100,
-            data: chartData
-        }]
-    };
+     const option = {
+         tooltip: {
+             trigger: 'item',
+             formatter: params => {
+                 const percent = params.percent.toFixed(1);
+                 return `<strong>${params.name}</strong><br/>تعداد: ${params.value} آیه<br/>درصد: ${percent}%`;
+             },
+             backgroundColor: 'rgba(50, 50, 50, 0.9)',
+             textStyle: { color: '#fff',fontFamily:'Vazir', fontSize: 13 }
+         },
+         series: [{
+             type: 'pie',
+             radius: ['0%', '75%'],
+             itemStyle: {
+                 borderRadius: 8,
+                 borderColor: '#fff',
+                 borderWidth: 3,
+                 shadowBlur: 10,
+                 shadowColor: 'rgba(0, 0, 0, 0.2)'
+             },
+             label: {
+                 position: 'inside',
+                 formatter: params => `${params.name}\n${params.value} آیه`,
+                 fontSize: 12,
+                 fontWeight: 'bold',
+                 fontFamily:'Vazir',
+             },
+             emphasis: {
+                 itemStyle: {
+                     shadowBlur: 20,
+                     shadowColor: 'rgba(0, 0, 0, 0.5)'
+                 }
+             },
+             animationType: 'scale',
+             animationEasing: 'elasticOut',
+             animationDelay: idx => idx * 100,
+             data: chartData
+         }]
+     };
 
-    myChart.setOption(option);
-});
+     myChart.setOption(option);
+ });
 
-// مدیریت تغییر اندازه فقط یک بار
-window.addEventListener('resize', () => {
-    surahsData.forEach(surah => {
-        const chartDom = document.getElementById(`chart-${surah.surah_id}`);
-        if (chartDom) {
-            const instance = echarts.getInstanceByDom(chartDom);
-            instance && instance.resize();
-        }
-    });
-});
+ // مدیریت تغییر اندازه فقط یک بار
+ window.addEventListener('resize', () => {
+     surahsData.forEach(surah => {
+         const chartDom = document.getElementById(`chart-${surah.surah_id}`);
+         if (chartDom) {
+             const instance = echarts.getInstanceByDom(chartDom);
+             instance && instance.resize();
+         }
+     });
+ });
 </script>
 {% endblock %}
