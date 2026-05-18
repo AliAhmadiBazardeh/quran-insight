@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.db.models import Q
 from .models import Ayah, Tafsir, TafsirSource, Surah
+from django.core.paginator import Paginator
+from django.db.models import Sum, Count
 
 def index(request):
     return render(request, "quran/index.html")
@@ -92,9 +94,13 @@ def get_tafsir(request):
     }}, json_dumps_params={'ensure_ascii': False})
 
 
-def dashboard_view(request):
-    """صفحه داشبورد با چارت‌های Pie"""
 
+
+
+def dashboard_view(request):
+    """صفحه داشبورد با چارت‌های Pie - صفحه‌بندی شده (هر ۹ سوره)"""
+
+    # دریافت منابع تفسیر
     tafsir_sources = list(TafsirSource.objects.all().order_by('order_priority'))
 
     # رنگ‌های پیش‌فرض
@@ -103,18 +109,27 @@ def dashboard_view(request):
         '#73c0de', '#3ba272', '#fc8452', '#9a60b4'
     ]
 
-    # دریافت تمام سوره‌ها با آیات و تفاسیر
-    surahs = Surah.objects.prefetch_related(
+    # -------- ۱. آمار کلی (برای خلاصه بالای صفحه) --------
+    total_surahs_count = Surah.objects.count()
+    total_verses_global = Surah.objects.aggregate(total=Sum('total_verses'))['total'] or 0
+    total_ayahs_with_tafsir_global = Ayah.objects.filter(
+        tafsir_list__isnull=False
+    ).aggregate(count=Count('id', distinct=True))['count'] or 0
+
+    # -------- ۲. صفحه‌بندی سوره‌ها --------
+    page_number = request.GET.get('page', 1)
+    all_surahs = Surah.objects.prefetch_related(
         'ayahs__tafsir_list__tafsir_source'
-    ).all()
+    ).order_by('number')  # یا 'id' به دلخواه
+    paginator = Paginator(all_surahs, 9)  # هر صفحه ۹ سوره
+    page_obj = paginator.get_page(page_number)
 
+    # -------- ۳. ساخت آمار فقط برای سوره‌های صفحه جاری --------
     surahs_stats = []
-
-    for surah in surahs:
+    for surah in page_obj.object_list:
         total_verses = surah.total_verses
         ayahs = list(surah.ayahs.all())
 
-        # محاسبه آیات دارای تفسیر
         ayahs_with_tafsir_set = set()
         source_ayah_map = {source.id: set() for source in tafsir_sources}
 
@@ -128,7 +143,6 @@ def dashboard_view(request):
         ayahs_with_tafsir = len(ayahs_with_tafsir_set)
         verses_without_tafsir = total_verses - ayahs_with_tafsir
 
-        # آمار منابع
         sources_stats = []
         for idx, source in enumerate(tafsir_sources):
             ayah_count = len(source_ayah_map[source.id])
@@ -154,7 +168,8 @@ def dashboard_view(request):
         })
 
     context = {
-        'surahs_stats': surahs_stats,
+        'surahs_stats': surahs_stats,          # فقط سوره‌های صفحه جاری
+        'page_obj': page_obj,                  # برای کنترل‌های صفحه‌بندی
         'tafsir_sources': [
             {
                 'id': s.id,
@@ -163,7 +178,11 @@ def dashboard_view(request):
             }
             for idx, s in enumerate(tafsir_sources)
         ],
-        'total_sources': len(tafsir_sources)
+        'total_sources': len(tafsir_sources),
+        # آمار کلی
+        'total_surahs_count': total_surahs_count,
+        'total_verses_global': total_verses_global,
+        'total_ayahs_with_tafsir_global': total_ayahs_with_tafsir_global,
     }
 
     return render(request, 'quran/dashboard.html', context)

@@ -100,6 +100,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "OPTIONS": {
+            # "service": "quran_insight_service_server",
             "service": "quran_insight_service",
         },
     }
