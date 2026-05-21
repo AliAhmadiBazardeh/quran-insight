@@ -11,14 +11,14 @@
 
 <div class="container mx-auto px-4 py-8">
     <!-- هدر -->
-    <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-        <h1 class="text-4xl font-bold text-gray-800">📊 داشبورد تفسیر قرآن کریم</h1>
-        <p class="text-gray-600 text-lg mt-2">نمایش وضعیت تفسیر آیات به تفکیک سوره</p>
-    </div>
+    <!--    <div class="bg-white rounded-xl shadow-lg p-8 mb-8">-->
+    <!--        <h1 class="text-4xl font-bold text-gray-800">📊 داشبورد تفسیر قرآن کریم</h1>-->
+    <!--        <p class="text-gray-600 text-lg mt-2">نمایش وضعیت تفسیر آیات به تفکیک سوره</p>-->
+    <!--    </div>-->
 
 
     <!-- خلاصه آمار -->
-    <div class="bg-white rounded-xl shadow-lg p-6 mt-8 mb-8">
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
         <h3 class="text-2xl font-bold text-gray-800 mb-6">📈 خلاصه آمار کلی</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl">
@@ -43,7 +43,7 @@
 
     <!-- صفحه‌بندی -->
     {% if page_obj.paginator.num_pages > 1 %}
-    <div class="flex justify-center mt-8">
+    <div class="flex justify-center mt-8 mb-8">
         <nav class="inline-flex items-center gap-1" aria-label="Page navigation" dir="ltr">
             {% if page_obj.has_previous %}
             <a href="?page={{ page_obj.previous_page_number }}"
@@ -99,50 +99,47 @@
         </nav>
     </div>
     {% endif %}
-</div>
 
 
-<!-- چارت‌های سوره‌ها -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {% for surah in surahs_stats %}
-    <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-        <div class="text-center mb-4 pb-4 border-b-2 border-gray-100">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ surah.surah_number }}. {{ surah.surah_name }}</h3>
-            <div class="text-gray-600 text-sm">
-                <strong class="text-purple-600">{{ surah.verses_with_tafsir }}</strong> از
-                <strong class="text-gray-800">{{ surah.total_verses }}</strong> آیه دارای تفسیر
+    <!-- چارت‌های سوره‌ها -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for surah in surahs_stats %}
+        <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <div class="text-center mb-4 pb-4 border-b-2 border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">{{ surah.surah_number }}. {{ surah.surah_name }}</h3>
+                <div class="text-gray-600 text-sm">
+                    <strong class="text-purple-600">{{ surah.verses_with_tafsir }}</strong> از
+                    <strong class="text-gray-800">{{ surah.total_verses }}</strong> آیه دارای تفسیر
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
+                    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 h-2 rounded-full transition-all duration-1000"
+                         style="width: {{ surah.completion_percentage }}%;"></div>
+                </div>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
-                <div class="bg-gradient-to-r from-purple-600 to-indigo-600 h-2 rounded-full transition-all duration-1000"
-                     style="width: {{ surah.completion_percentage }}%;"></div>
-            </div>
+            <div class="h-80" id="chart-{{ surah.surah_id }}"></div>
         </div>
-        <div class="h-80" id="chart-{{ surah.surah_id }}"></div>
-    </div>
-    {% empty %}
-    <p class="text-center text-gray-500 col-span-full">هیچ سوره‌ای یافت نشد.</p>
-    {% endfor %}
-</div>
-
-</div>
-
-
-<!-- راهنمای رنگ‌ها -->
-<div class="bg-white rounded-xl shadow-lg p-6 mb-8 mt-8">
-    <h3 class="text-2xl font-bold text-gray-800 mb-4">🎨 راهنمای منابع تفسیر</h3>
-    <div class="flex flex-wrap gap-4">
-        {% for source in tafsir_sources %}
-        <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-lg hover:shadow-md transition">
-            <div class="w-6 h-6 rounded-md shadow-md" style="background-color: {{ source.color }};"></div>
-            <span class="font-medium text-gray-700">{{ source.title }}</span>
-        </div>
+        {% empty %}
+        <p class="text-center text-gray-500 col-span-full">هیچ سوره‌ای یافت نشد.</p>
         {% endfor %}
-        <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-lg hover:shadow-md transition">
-            <div class="w-6 h-6 rounded-md shadow-md bg-gray-300"></div>
-            <span class="font-medium text-gray-700">بدون تفسیر</span>
+    </div>
+    <!-- راهنمای رنگ‌ها -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8 mt-8">
+        <h3 class="text-2xl font-bold text-gray-800 mb-4">🎨 راهنمای منابع تفسیر</h3>
+        <div class="flex flex-wrap gap-4">
+            {% for source in tafsir_sources %}
+            <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-lg hover:shadow-md transition">
+                <div class="w-6 h-6 rounded-md shadow-md" style="background-color: {{ source.color }};"></div>
+                <span class="font-medium text-gray-700">{{ source.title }}</span>
+            </div>
+            {% endfor %}
+            <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-lg hover:shadow-md transition">
+                <div class="w-6 h-6 rounded-md shadow-md bg-gray-300"></div>
+                <span class="font-medium text-gray-700">بدون تفسیر</span>
+            </div>
         </div>
     </div>
 </div>
+
 
 <script>
     const surahsData = {{ surahs_stats|safe }};
