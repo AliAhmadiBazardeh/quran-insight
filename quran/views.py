@@ -98,23 +98,24 @@ def get_tafsir(request):
 
 
 def dashboard_view(request):
-    """صفحه داشبورد با چارت‌های Pie - صفحه‌بندی شده (هر ۹ سوره)"""
+    """صفحه داشبورد با چارت‌های Pie - صفحه‌بندی شده (هر 3 سوره)"""
 
-    # دریافت منابع تفسیر
     tafsir_sources = list(TafsirSource.objects.all().order_by('order_priority'))
 
-    # رنگ‌های پیش‌فرض
     colors = [
         '#5470c6', '#91cc75', '#fac858', '#ee6666',
         '#73c0de', '#3ba272', '#fc8452', '#9a60b4'
     ]
 
-    # -------- ۱. آمار کلی (برای خلاصه بالای صفحه) --------
-    total_surahs_count = Surah.objects.count()
-    total_verses_global = Surah.objects.aggregate(total=Sum('total_verses'))['total'] or 0
-    total_ayahs_with_tafsir_global = Ayah.objects.filter(
-        tafsir_list__isnull=False
-    ).aggregate(count=Count('id', distinct=True))['count'] or 0
+    global_stats = Surah.objects.aggregate(
+        total_surahs=Count('id'),
+        total_verses=Sum('total_verses'),
+        total_ayahs_with_tafsir=Count(
+            'ayahs__id',
+            filter=Q(ayahs__tafsir_list__isnull=False),
+            distinct=True
+        )
+    )
 
     # -------- ۲. صفحه‌بندی سوره‌ها --------
     page_number = request.GET.get('page', 1)
@@ -180,9 +181,9 @@ def dashboard_view(request):
         ],
         'total_sources': len(tafsir_sources),
         # آمار کلی
-        'total_surahs_count': total_surahs_count,
-        'total_verses_global': total_verses_global,
-        'total_ayahs_with_tafsir_global': total_ayahs_with_tafsir_global,
+        'total_surahs_count': global_stats['total_surahs'],
+        'total_verses_global': global_stats['total_verses'],
+        'total_ayahs_with_tafsir_global': global_stats['total_ayahs_with_tafsir'],
     }
 
     return render(request, 'quran/dashboard.html', context)
