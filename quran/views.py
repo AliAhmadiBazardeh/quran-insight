@@ -107,9 +107,12 @@ def dashboard_view(request):
         '#73c0de', '#3ba272', '#fc8452', '#9a60b4'
     ]
 
+
+    total_verses_global = Ayah.objects.count()
+
     global_stats = Surah.objects.aggregate(
         total_surahs=Count('id'),
-        total_verses=Sum('total_verses'),
+        # total_verses=Sum('total_verses'),
         total_ayahs_with_tafsir=Count(
             'ayahs__id',
             filter=Q(ayahs__tafsir_list__isnull=False),
@@ -182,7 +185,7 @@ def dashboard_view(request):
         'total_sources': len(tafsir_sources),
         # آمار کلی
         'total_surahs_count': global_stats['total_surahs'],
-        'total_verses_global': global_stats['total_verses'],
+        'total_verses_global': total_verses_global,
         'total_ayahs_with_tafsir_global': global_stats['total_ayahs_with_tafsir'],
     }
 
