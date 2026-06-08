@@ -67,6 +67,8 @@ def normalize_persian(text_type: str, text: str) -> str:
         'إ': 'ا',   # alef with hamza below -> alef
         'أ': 'ا',   # alef with hamza above -> alef
         'آ': 'ا',   # alef madd -> alef (or keep as آ? common to keep)
+        'ٱ': 'ا',    # alef wasl
+        'ا۟': 'ا',    # vaghf
     }
     for old, new in replacements.items():
         text = text.replace(old, new)
