@@ -93,10 +93,6 @@ def get_tafsir(request):
         'text_prefix': ayah.text_prefix,
     }}, json_dumps_params={'ensure_ascii': False})
 
-
-
-
-
 def dashboard_view(request):
     """صفحه داشبورد با چارت‌های Pie - صفحه‌بندی شده (هر 3 سوره)"""
 

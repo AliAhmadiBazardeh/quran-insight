@@ -16,7 +16,7 @@ class TafsirAyahLinkInline(admin.TabularInline):
 class AyahInline(admin.TabularInline):  # یا admin.StackedInline
     model = Ayah
     extra = 0  # تعداد ردیف خالی اضافی (صفر برای نمایش فقط آیات موجود)
-    fields = [ 'text_prefix', 'tafsir_sources']  # فیلدهایی که نمایش داده شوند
+    fields = [ 'number','text_prefix', 'tafsir_sources']  # فیلدهایی که نمایش داده شوند
     readonly_fields = ['number', 'text_prefix', 'tafsir_sources'] # اگر text_prefix به صورت خودکار پر می‌شود
     ordering = ['number']  # مرتب‌سازی بر اساس شماره آیه
 
