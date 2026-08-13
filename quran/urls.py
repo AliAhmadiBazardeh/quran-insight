@@ -1,13 +1,13 @@
 from django.urls import path
-from . import views
+from quran.views import dashboard, pages, tafsir, search
 
 urlpatterns = [
-    path("", views.index, name="index"),
-    path('about/', views.about_view, name='about'),
-    path('support/', views.support_view, name='support'),
-    path('contact/', views.contact_view, name='contact'),
-    path('api/search/', views.live_search, name='live_search'),  # API جستجو
-    path('api/tafsir/', views.get_tafsir, name='get_tafsir'),
-    path('dashboard/', views.dashboard_view, name='dashboard'),
+    path("", pages.index, name="index"),
+    path('about/', pages.about_view, name='about'),
+    path('support/', pages.support_view, name='support'),
+    path('contact/', pages.contact_view, name='contact'),
+    path('api/search/', search.live_search, name='live_search'),
+    path('api/tafsir/', tafsir.get_tafsir, name='get_tafsir'),
+    path('dashboard/', dashboard.dashboard, name='dashboard'),
 
 ]
