@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 from quran.models import Surah, TafsirSource
 from crawlers.tafsir_noor import TafsirNoorCrawler
-from services.tafsir_service import TafsirService
+from quran.services.tafsir import TafsirService
 from django.contrib.auth import get_user_model
 
 class Command(BaseCommand):

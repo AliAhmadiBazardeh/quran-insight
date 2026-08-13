@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-from urllib.parse import urlencode
 from .base import BaseCrawler
 from dataclasses import dataclass
 
