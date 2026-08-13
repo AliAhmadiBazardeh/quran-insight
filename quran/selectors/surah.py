@@ -2,7 +2,7 @@ from django.db.models import QuerySet
 from quran.models import Surah, Ayah
 from django.db.models import Count, Q
 
-def get_surahs_for_dashboard() -> QuerySet[Surah]:
+def get_surah_list_for_dashboard() -> QuerySet[Surah]:
     return (
         Surah.objects
         .prefetch_related(
@@ -13,7 +13,7 @@ def get_surahs_for_dashboard() -> QuerySet[Surah]:
 
 def get_dashboard_global_stats() -> dict:
     total_verses = Ayah.objects.count()
-    total_surahs = Surah.objects.count()
+    total_surah_list = Surah.objects.count()
 
     tafsir_stats = Surah.objects.aggregate(
         total_ayahs_with_tafsir=Count(
@@ -25,7 +25,7 @@ def get_dashboard_global_stats() -> dict:
 
     return {
         "total_verses": total_verses,
-        "total_surahs": total_surahs,
+        "total_surah_list": total_surah_list,
         "total_ayahs_with_tafsir": (
             tafsir_stats["total_ayahs_with_tafsir"]
         ),

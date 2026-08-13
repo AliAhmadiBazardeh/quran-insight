@@ -80,3 +80,15 @@ def normalize_persian(text_type: str, text: str) -> str:
     # Optional: normalize multiple spaces
     text = re.sub(r'\s+', ' ', text).strip()
     return text
+
+
+TAFSIR_SOURCE_COLORS = [
+    "#5470c6",
+    "#91cc75",
+    "#fac858",
+    "#ee6666",
+    "#73c0de",
+    "#3ba272",
+    "#fc8452",
+    "#9a60b4",
+]

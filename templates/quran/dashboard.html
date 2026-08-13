@@ -22,7 +22,7 @@
         <h3 class="text-2xl font-bold text-gray-800 mb-6">📈 خلاصه آمار کلی</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl">
-                <div class="text-4xl font-bold text-purple-600 mb-2">{{ total_surahs_count }}</div>
+                <div class="text-4xl font-bold text-purple-600 mb-2">{{ total_surah_list_count }}</div>
                 <div class="text-gray-600">تعداد سوره‌ها</div>
             </div>
             <div class="text-center p-6 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl">
@@ -103,7 +103,7 @@
 
     <!-- چارت‌های سوره‌ها -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {% for surah in surahs_stats %}
+        {% for surah in surah_list_stats %}
         <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
             <div class="text-center mb-4 pb-4 border-b-2 border-gray-100">
                 <h3 class="text-xl font-bold text-gray-800 mb-2">{{ surah.surah_number }}. {{ surah.surah_name }}</h3>
@@ -142,10 +142,10 @@
 
 
 <script>
-    const surahsData = {{ surahs_stats|safe }};
+    const surah_listData = {{ surah_list_stats|safe }};
 
  // ایجاد چارت برای هر سوره
- surahsData.forEach(surah => {
+ surah_listData.forEach(surah => {
      const chartDom = document.getElementById(`chart-${surah.surah_id}`);
      if (!chartDom) return;   // اگر المان پیدا نشد از این سوره رد شو
 
@@ -214,7 +214,7 @@
 
  // مدیریت تغییر اندازه فقط یک بار
  window.addEventListener('resize', () => {
-     surahsData.forEach(surah => {
+     surah_listData.forEach(surah => {
          const chartDom = document.getElementById(`chart-${surah.surah_id}`);
          if (chartDom) {
              const instance = echarts.getInstanceByDom(chartDom);
