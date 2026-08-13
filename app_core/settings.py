@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['tafsirjoo.ir', '185.231.115.76','localhost','www.tafsirjoo.ir']
+ALLOWED_HOSTS = ['tafsirjoo.ir', '185.7.212.87','localhost','www.tafsirjoo.ir']
 
 
 # Application definition
