@@ -1,5 +1,5 @@
 from django.db import models
-from quran.services.bale import send_feedback_notification
+from quran.tasks import send_feedback_notification_task
 
 class Feedback(models.Model):
     FEEDBACK_TYPES = [
@@ -33,4 +33,8 @@ class Feedback(models.Model):
     def save(self, *args, **kwargs):
 
         super().save(*args, **kwargs)
-        send_feedback_notification(self.get_feedback_type_display(), self.message)
+
+        send_feedback_notification_task.delay(
+            feedback_type=self.get_feedback_type_display(),
+            text=self.message,
+        )

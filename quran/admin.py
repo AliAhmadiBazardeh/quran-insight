@@ -1,8 +1,10 @@
+from django.db import transaction
+
 from .form import TafsirAdminForm
 from django.contrib import admin
 from .models import Surah, Ayah, Tafsir, TafsirSource
-from .services.bale import send_tafsir_notification
 from jdatetime import datetime as jdatetime
+from quran.tasks import send_tafsir_notification_task
 
 
 class TafsirAyahLinkInline(admin.TabularInline):
@@ -130,7 +132,14 @@ class TafsirAdmin(admin.ModelAdmin):
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
-        send_tafsir_notification(request, form.instance, change)
+
+        transaction.on_commit(
+            lambda: send_tafsir_notification_task.delay(
+                obj_id=form.instance.pk,
+                user_id=request.user.pk,
+                change=change,
+            )
+        )
 
     def get_ayah_list(self, obj):
         return ', '.join(str(ayah) for ayah in obj.ayah_list.all())
