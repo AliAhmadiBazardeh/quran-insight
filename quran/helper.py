@@ -1,6 +1,5 @@
 import re
 import requests
-import json
 from django.conf import settings
 
 def send_message_to_channel(request,obj, change):

@@ -1,5 +1,5 @@
 from django.db import models
-from quran import helper
+from quran.services.bale import send_feedback_notification
 
 class Feedback(models.Model):
     FEEDBACK_TYPES = [
@@ -33,4 +33,4 @@ class Feedback(models.Model):
     def save(self, *args, **kwargs):
 
         super().save(*args, **kwargs)
-        helper.send_feedback_to_channel(self.get_feedback_type_display(), self.message)
+        send_feedback_notification(self.get_feedback_type_display(), self.message)

@@ -1,7 +1,7 @@
 from .form import TafsirAdminForm
 from django.contrib import admin
 from .models import Surah, Ayah, Tafsir, TafsirSource
-from . import helper
+from .services.bale import send_tafsir_notification
 from jdatetime import datetime as jdatetime
 
 
@@ -130,7 +130,7 @@ class TafsirAdmin(admin.ModelAdmin):
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
-        helper.send_message_to_channel(request, form.instance, change)
+        send_tafsir_notification(request, form.instance, change)
 
     def get_ayah_list(self, obj):
         return ', '.join(str(ayah) for ayah in obj.ayah_list.all())
