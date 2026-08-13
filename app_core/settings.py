@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ne@4sxkhi_%a+-abx^qgf_ttund!la4xxi7))htvta*y=!e3ye
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['tafsirjoo.ir', '185.7.212.87','localhost','www.tafsirjoo.ir']
 
@@ -99,6 +99,11 @@ DATABASES = {
         "OPTIONS": {
             "service": "quran_insight_service",
         },
+        "TEST": {
+            "OPTIONS": {
+                "service": "quran_insight_service_test",
+            }
+        }
     }
 }
 
