@@ -4,7 +4,17 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'OSMANTAHA';
+    src: url('../fonts/ScheherazadeRegOT.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 
 body {
     font-family: 'Vazir', sans-serif;
+}
+
+.osmantaha {
+    font-family: 'OSMANTAHA', sans-serif;
 }

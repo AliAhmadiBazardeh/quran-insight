@@ -93,7 +93,7 @@ function renderResults(results, query = '') {
                     <span class="font-medium text-emerald-800">${escapeHtml(item.surah_name)} - آیه ${item.ayah_number}</span>
                     <span class="text-xs text-gray-500">${item.surah_number}:${item.ayah_number}</span>
                 </div>
-                <div class="text-sm text-gray-600 mt-1">${escapeHtml(item.text_prefix || '')}...</div>
+                <div class="text-2xl osmantaha text-gray-600 mt-1">${escapeHtml(item.text_prefix || '')}...</div>
             `;
             li.addEventListener('click', () => selectAyah(item));
             resultsList.appendChild(li);
