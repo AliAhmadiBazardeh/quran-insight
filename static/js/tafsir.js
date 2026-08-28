@@ -41,7 +41,7 @@ function renderTafsir(data) {
                     سوره ${escapeHtml(ayah.surah_name)} -
                     آیه ${ayah.ayah_number}
                 </p>
-                <p class="text-gray-600 mt-2 text-2xl osmantaha">${escapeHtml(ayah.text || '')}</p>
+                <p class="text-gray-600 mt-2 text-3xl osmantaha font-bold">${escapeHtml(ayah.text || '')}</p>
             </div>
     `;
 
