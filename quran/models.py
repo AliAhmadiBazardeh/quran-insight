@@ -2,6 +2,7 @@ from django.db import models
 from .helper import normalize_persian
 from django.conf import settings
 from django.contrib import admin as admin_decorators
+from django.contrib.postgres.indexes import GinIndex
 
 class Surah(models.Model):
     """مدل سوره‌های قرآن"""
@@ -44,6 +45,13 @@ class Ayah(models.Model):
         unique_together = ['surah', 'number']  # ترکیب سوره + شماره آیه یکتا باشد
         verbose_name = "آیه"
         verbose_name_plural = "آیات"
+        indexes = [
+            GinIndex(
+                name="ayah_text_fa_trgm_idx",
+                fields=["text_fa"],
+                opclasses=["gin_trgm_ops"],
+            ),
+        ]
 
 
     def __str__(self):
