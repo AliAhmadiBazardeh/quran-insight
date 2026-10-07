@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 
 from quran.selectors.ayah import search_ayahs
+from quran.utilities.match_ayah import find_match_context
 
 
 @require_GET
@@ -13,16 +14,26 @@ def live_search(request):
 
     ayahs = search_ayahs(query)
 
-    results = [
-        {
-            "id": ayah.id,
-            "surah_name": ayah.surah.name_fa,
-            "surah_number": ayah.surah.number,
-            "ayah_number": ayah.number,
-            "text_prefix": ayah.text_prefix or ayah.text[:20],
-        }
-        for ayah in ayahs
-    ]
+    results = []
+
+    for ayah in ayahs:
+        match = find_match_context(
+            query=query,
+            original_text=ayah.text,
+        )
+
+        results.append(
+            {
+                "id": ayah.id,
+                "surah_name": ayah.surah.name_fa,
+                "surah_number": ayah.surah.number,
+                "ayah_number": ayah.number,
+
+                "text": match["text"],
+                "match_start": match["highlight_start"],
+                "match_end": match["highlight_end"],
+            }
+        )
 
     return JsonResponse(
         {"results": results},

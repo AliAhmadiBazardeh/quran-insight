@@ -3,7 +3,6 @@ from django.contrib.postgres.search import TrigramWordSimilarity
 
 from quran.models import Ayah
 
-
 def search_ayahs(query: str, limit: int = 10) -> QuerySet[Ayah]:
     return (
         Ayah.objects

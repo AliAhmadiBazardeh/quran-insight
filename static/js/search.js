@@ -93,13 +93,40 @@ function renderResults(results, query = '') {
                     <span class="font-medium text-emerald-800">${escapeHtml(item.surah_name)} - آیه ${item.ayah_number}</span>
                     <span class="text-xs text-gray-500">${item.surah_number}:${item.ayah_number}</span>
                 </div>
-                <div class="text-2xl osmantaha text-gray-600 mt-1">${escapeHtml(item.text_prefix || '')}...</div>
+
+                <div class="text-2xl osmantaha text-gray-600 mt-1">
+                    ${renderAyahMatch(item)}
+                </div>
             `;
             li.addEventListener('click', () => selectAyah(item));
             resultsList.appendChild(li);
         });
     }
     searchResultsDiv.classList.remove('hidden');
+}
+
+function renderAyahMatch(item) {
+    const text = item.text || '';
+
+    const start = item.match_start ?? 0;
+    const end = item.match_end ?? 0;
+
+    const before = text.substring(0, start);
+    const match = text.substring(start, end);
+    const after = text.substring(end);
+
+    const hasBefore = start > 0;
+    const hasAfter = end < text.length;
+
+    return `
+        ${hasBefore ? '...' : ''}
+        ${escapeHtml(before)}
+        <span class="text-green-700">
+            ${escapeHtml(match)}
+        </span>
+        ${escapeHtml(after)}
+        ${hasAfter ? '...' : ''}
+    `;
 }
 
 
